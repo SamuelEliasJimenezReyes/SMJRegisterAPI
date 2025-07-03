@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SMJRegisterAPI.Database.Seeds;
 using SMJRegisterAPI.Entities;
 
 namespace SMJRegisterAPI.Database.Contexts;
@@ -10,5 +11,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);    
+        
+        ChurchSeed.Seed(modelBuilder);
+        CamperSeed.Seed(modelBuilder);
     }
 }

@@ -8,27 +8,67 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da2e0352-57ce-4b0d-85f0-41a88aee2566" name="Changes" comment="a" />
+    <list default="true" id="da2e0352-57ce-4b0d-85f0-41a88aee2566" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Database/Seeds/CamperSeed.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Database/Seeds/ChurchSeed.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Camper/Dtos/CamperDTO.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Camper/Endpoints/CamperEndpoints.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Camper/Mappings/CamperProfile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Camper/Queries/GetAll/GetAllCampersQuery.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Camper/Queries/GetAll/GetAllCampersQueryHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Camper/Repository/CamperRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Camper/Repository/ICamperRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Church/Dtos/ChurchDTO.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Church/Dtos/ChurchSimpleDTO.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Church/Mappings/ChurchProfile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Common/GenericRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SMJRegisterAPI/Features/Common/IGenericRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SMJRegisterAPI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SMJRegisterAPI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/Database/Configurations/CamperConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SMJRegisterAPI/Database/Configurations/CamperConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/Database/Contexts/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SMJRegisterAPI/Database/Contexts/ApplicationDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/Database/Migrations/ApplicationDbContextMigrations/20250702234957_Initial.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/Database/Migrations/ApplicationDbContextMigrations/20250702234957_Initial.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/Database/Migrations/ApplicationDbContextMigrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SMJRegisterAPI/Database/Migrations/ApplicationDbContextMigrations/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/SMJRegisterAPI/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/Entities/Camper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SMJRegisterAPI/Entities/Camper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/Entities/Enums/Condition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SMJRegisterAPI/Entities/Enums/Condition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/Entities/Enums/Conference.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SMJRegisterAPI/Entities/Enums/Conference.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/Entities/Enums/Gender.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SMJRegisterAPI/Entities/Enums/Gender.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SMJRegisterAPI/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMJRegisterAPI/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/SMJRegisterAPI/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/compose.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DpaMonitoringSettings">
+    <option name="firstShow" value="false" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "SamuelEliasJimenezReyes"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;SamuelEliasJimenezReyes&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/SamuelEliasJimenezReyes/SMJRegisterAPI.git",
-    "accountId": "18c97f4d-b892-4408-ac25-a09b5768e8bd"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/SamuelEliasJimenezReyes/SMJRegisterAPI.git&quot;,
+    &quot;accountId&quot;: &quot;18c97f4d-b892-4408-ac25-a09b5768e8bd&quot;
   }
-}]]></component>
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ce37be1a06b16c6faa02038d2cc477dd3bca5b217ceeb41c5f2ad45c1bf9/ServiceProvider.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -39,24 +79,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.SMJRegisterAPI: http.executor&quot;: &quot;Debug&quot;,
+    &quot;Docker.SMJRegisterAPI/Dockerfile.executor&quot;: &quot;Debug&quot;,
+    &quot;Docker.compose.yaml.postgres: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.compose.yaml.smjregisterapi: Compose Deployment.executor&quot;: &quot;Debug&quot;,
+    &quot;Docker.compose.yaml: Compose Deployment.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "GitIgnore"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlserver&quot;,
+      &quot;postgresql&quot;
+    ],
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;GitIgnore&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.SMJRegisterAPI: http">
     <configuration name="SMJRegisterAPI: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/SMJRegisterAPI/SMJRegisterAPI.csproj" />
@@ -65,6 +114,7 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
+      <browser name="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
       <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
       <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
       <option name="SEND_DEBUG_REQUEST" value="1" />
@@ -132,6 +182,48 @@
       <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
       <method v="2" />
     </configuration>
+    <configuration name="compose.yaml.postgres: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="postgres" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="compose.yaml" />
+        </settings>
+      </deployment>
+      <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="compose.yaml.smjregisterapi: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="smjregisterapi" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="compose.yaml" />
+        </settings>
+      </deployment>
+      <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue=".NET Launch Settings Profile.SMJRegisterAPI: http" />
+      <item itemvalue=".NET Launch Settings Profile.SMJRegisterAPI: https" />
+      <item itemvalue="Docker.compose.yaml: Compose Deployment" />
+      <item itemvalue="Docker.SMJRegisterAPI/Dockerfile" />
+      <item itemvalue="Docker.compose.yaml.postgres: Compose Deployment" />
+      <item itemvalue="Docker.compose.yaml.smjregisterapi: Compose Deployment" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.compose.yaml.smjregisterapi: Compose Deployment" />
+        <item itemvalue="Docker.compose.yaml.postgres: Compose Deployment" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -144,7 +236,10 @@
       <workItem from="1751498725027" duration="932000" />
       <workItem from="1751499692027" duration="523000" />
       <workItem from="1751500292789" duration="78000" />
-      <workItem from="1751500391416" duration="507000" />
+      <workItem from="1751500391416" duration="1036000" />
+      <workItem from="1751501493288" duration="3382000" />
+      <workItem from="1751506695753" duration="10316000" />
+      <workItem from="1751521437698" duration="1858000" />
     </task>
     <task id="LOCAL-00001" summary="a">
       <option name="closed" value="true" />

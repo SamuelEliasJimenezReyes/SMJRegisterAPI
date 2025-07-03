@@ -12,6 +12,8 @@ public class Camper : BaseEntity
     public bool IsGrant { get; set; } = false;
     
     public Gender Gender { get; set; }
+    
+    public Condition Condition { get; set; }
 
     public int ChurchId { get; set; }
     public Church Church { get; set; }

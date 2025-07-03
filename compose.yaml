@@ -8,14 +8,22 @@
       POSTGRES_DB: smjdb
     ports:
       - "5000:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   smjregisterapi:
-    image: smjregisterapi
     build:
       context: .
       dockerfile: SMJRegisterAPI/Dockerfile
     depends_on:
       - postgres
     ports:
-      - "8080:80"
+      # Maps host 8080 to container 80
+      - "8080:80"  
     environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=smjdb;Username=postgres;Password=Admin1234!
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5000;Database=smjdb;Username=postgres;Password=Admin1234!
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

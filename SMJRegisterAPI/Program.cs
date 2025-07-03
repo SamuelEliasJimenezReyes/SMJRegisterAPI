@@ -1,20 +1,35 @@
+using System.Reflection;
 using Carter;
+using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using SMJRegisterAPI.Database.Contexts;
+using SMJRegisterAPI.Features.Camper.Repository;
+using SMJRegisterAPI.Features.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
 #region DbContext Configurations
 
 builder.Services.AddDbContext<ApplicationDbContext>(opt=>
-    opt.UseNpgsql(
+    opt.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
 
 #endregion
 
+#region Repositories
+    builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+    builder.Services.AddScoped(typeof(ICamperRepository),typeof(CamperRepository));
+#endregion
+
+#region Automapper y MediatR
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddMediatR(cfg => 
+        cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+#endregion
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -34,28 +49,5 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapCarter();
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast");
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

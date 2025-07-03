@@ -8,7 +8,7 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
 {
     public void Configure(EntityTypeBuilder<Camper> builder)
     {
-        builder.ToTable("Campers");
+        builder.ToTable("Campistas");
         
         builder.HasQueryFilter(x => !x.IsDeleted);
         
@@ -32,6 +32,10 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
             .HasConversion<string>()
             .HasColumnName("Genero");
         
+        builder.Property(x => x.Condition)
+            .HasConversion<string>()
+            .HasColumnName("Condicion");
+
         builder.HasOne(x=> x.Church)
             .WithMany(x=>x.Campers)
             .HasForeignKey(x=>x.ChurchId);
