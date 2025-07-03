@@ -1,0 +1,21 @@
+﻿services:
+  postgres:
+    image: postgres
+    container_name: postgres-dotnet
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Admin1234!
+      POSTGRES_DB: smjdb
+    ports:
+      - "5000:5432"
+  smjregisterapi:
+    image: smjregisterapi
+    build:
+      context: .
+      dockerfile: SMJRegisterAPI/Dockerfile
+    depends_on:
+      - postgres
+    ports:
+      - "8080:80"
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=smjdb;Username=postgres;Password=Admin1234!
