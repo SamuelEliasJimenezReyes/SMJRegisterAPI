@@ -12,5 +12,14 @@ public class CamperRepository(ApplicationDbContext context) :  GenericRepository
             .AsSplitQuery()
             .Include(c => c.Church)
             .ToListAsync();
-    
+
+    public override async Task<Entities.Camper> GetByIdAsync(int id)
+    {
+        var entiy = await context.Campers.Include(c=>c.Church)
+            .Where(x=>x.ID == id)
+            .FirstOrDefaultAsync();
+
+        // var entiy = await context.Campers.FindAsync(id);
+        return entiy;
+    }
 }
