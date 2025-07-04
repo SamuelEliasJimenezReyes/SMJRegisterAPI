@@ -22,4 +22,6 @@ public class CamperRepository(ApplicationDbContext context) :  GenericRepository
         // var entiy = await context.Campers.FindAsync(id);
         return entiy;
     }
+    
+    
 }

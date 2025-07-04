@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using SMJRegisterAPI.Common.Entities;
 using SMJRegisterAPI.Database.Contexts;
 
@@ -38,4 +39,12 @@ public class GenericRepository<T>(ApplicationDbContext context) : IGenericReposi
 
         return null;
     }
+    
+    public async Task LoadReferenceAsync<TProperty>(T entity, Expression<Func<T, TProperty>> navigationProperty)
+        where TProperty : class
+    {
+        var entry = context.Entry(entity);
+        await entry.Reference(navigationProperty).LoadAsync();
+    }
+
 }

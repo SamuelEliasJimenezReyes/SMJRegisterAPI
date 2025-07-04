@@ -1,4 +1,6 @@
-﻿namespace SMJRegisterAPI.Features.Common;
+﻿using System.Linq.Expressions;
+
+namespace SMJRegisterAPI.Features.Common;
 
 public interface IGenericRepository<T> where T : class
 {
@@ -7,4 +9,8 @@ public interface IGenericRepository<T> where T : class
     Task DeleteAsync(T entity);
     Task<List<T>> GetAllAsync();
     Task<T> GetByIdAsync(int id);
+
+    Task LoadReferenceAsync<TProperty>(T entity, Expression<Func<T, TProperty>> navigationProperty)
+        where TProperty : class;
+    
 }

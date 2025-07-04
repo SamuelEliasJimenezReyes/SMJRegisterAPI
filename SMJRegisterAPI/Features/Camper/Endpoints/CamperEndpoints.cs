@@ -2,6 +2,7 @@
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
+using SMJRegisterAPI.Features.Camper.Command.Create;
 using SMJRegisterAPI.Features.Camper.Dtos;
 using SMJRegisterAPI.Features.Camper.Queries.GetAll;
 using SMJRegisterAPI.Features.Camper.Queries.GetById;
@@ -14,6 +15,7 @@ public class CamperEndpoints() : CarterModule("/camper")
     {
         app.MapGet("/", GetAllCampers);
         app.MapGet("/{id:int}", GetCamperById);
+        app.MapPost("/", CreateCamper);
     }
 
     
@@ -32,5 +34,12 @@ public class CamperEndpoints() : CarterModule("/camper")
         });
 
         return result is null ? TypedResults.NotFound() : TypedResults.Ok(result);
+    }
+
+    private async Task<Created> CreateCamper(ISender sender
+        , CreateCamperCommand command)
+    {
+        var result = await sender.Send(command);
+        return TypedResults.Created();
     }
 }
