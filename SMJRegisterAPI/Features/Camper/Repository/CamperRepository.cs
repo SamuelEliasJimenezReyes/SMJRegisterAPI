@@ -18,10 +18,13 @@ public class CamperRepository(ApplicationDbContext context) :  GenericRepository
         var entiy = await context.Campers.Include(c=>c.Church)
             .Where(x=>x.ID == id)
             .FirstOrDefaultAsync();
-
-        // var entiy = await context.Campers.FindAsync(id);
         return entiy;
     }
-    
-    
+
+    public async Task<List<Entities.Camper>> GetAllByChurchIDAsync(int churchID)
+    => await context.Campers
+        .Where(x => x.ChurchId == churchID)
+        .Include(x=>x.Church)
+        .ToListAsync();
+
 }
