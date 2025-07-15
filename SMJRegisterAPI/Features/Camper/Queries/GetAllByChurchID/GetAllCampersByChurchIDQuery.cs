@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using SMJRegisterAPI.Features.Camper.Dtos;
 
 

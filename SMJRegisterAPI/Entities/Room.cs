@@ -1,13 +1,12 @@
 ﻿using SMJRegisterAPI.Common.Entities;
-using SMJRegisterAPI.Entities.Enums;
 
 namespace SMJRegisterAPI.Entities;
 
-public class Church : BaseEntity
+public class Room : BaseEntity
 {
     public string Name { get; set; }
-    public Conference Conference { get; set; }
+    public int Capacity { get; set; }
     
-    //Relationsship
+    //relationships
     public ICollection<Camper> Campers { get; set; }
 }

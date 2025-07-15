@@ -18,10 +18,10 @@ public class CamperEndpoints() : CarterModule("/camper")
     {
         app.MapGet("/", GetAllCampers);
         app.MapGet("/{id:int}", GetCamperById);
+        app.MapPost("/", CreateCamper);
         app.MapGet("/get-by-condition{condition:int}", GetAllByCondition);
         app.MapGet("/get-by-church/{churchId:int}", GetAllByChurchId);
         app.MapGet("/get-by-conference/{conference:int}", GetAllByConference);
-        app.MapPost("/", CreateCamper);
     }
 
     
@@ -29,7 +29,6 @@ public class CamperEndpoints() : CarterModule("/camper")
     {
         var result = await sender.Send(new GetAllCampersQuery());
         return result is null ? TypedResults.NotFound() : TypedResults.Ok(result);
-
     }
 
     private async Task<Results<Ok<CamperDTO>, NotFound>> GetCamperById(ISender sender, int id)

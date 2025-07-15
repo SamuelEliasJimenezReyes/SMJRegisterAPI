@@ -18,6 +18,11 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
             .HasMaxLength(100)
             .HasColumnName("Nombre");
         
+        builder.Property(x => x.DocumentNumber)
+            .IsRequired()
+            .HasMaxLength(11)
+            .HasColumnName("Cedula");
+
         builder.Property(x => x.LastName)
             .HasMaxLength(100)
             .HasColumnName("Apellido");
@@ -39,5 +44,9 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
         builder.HasOne(x=> x.Church)
             .WithMany(x=>x.Campers)
             .HasForeignKey(x=>x.ChurchId);
+        
+        builder.HasOne(x=>x.Room)
+            .WithMany(x=>x.Campers)
+            .HasForeignKey(x=>x.RoomId);
     }
 }

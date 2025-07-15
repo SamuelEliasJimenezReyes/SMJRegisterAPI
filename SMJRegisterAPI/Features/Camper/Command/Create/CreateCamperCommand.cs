@@ -3,13 +3,7 @@ using SMJRegisterAPI.Features.Camper.Dtos;
 
 namespace SMJRegisterAPI.Features.Camper.Command.Create;
 
-public class CreateCamperCommand : IRequest<CreateCamperDTO>
+public class CreateCamperCommand(CreateCamperDTO camper) : IRequest<CreateCamperDTO>
 {
-    public CreateCamperCommand(CreateCamperDTO camper)
-    {
-        Camper = camper;
-    }
-
-    public CreateCamperDTO Camper { get; set; }
-    
+    public CreateCamperDTO Camper { get; set; } = camper;
 }

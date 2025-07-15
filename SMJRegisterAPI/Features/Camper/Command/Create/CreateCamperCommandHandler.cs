@@ -15,7 +15,11 @@ public class CreateCamperCommandHandler(ICamperRepository repository, IMapper ma
         
         camper.Gender = (Entities.Enums.Gender)request.Camper.Gender;
         camper.Condition = (Entities.Enums.Condition)request.Camper.Condition;
-        
+
+        if (camper.IsGrant)
+        {
+            camper.GrantedCodeId =request.Camper.GrantedCodeId; 
+        }
         await repository.AddAsync(camper);
         await repository.LoadReferenceAsync(camper,c=>c.Church);
         var Dto = mapper.Map<CreateCamperDTO>(camper);
