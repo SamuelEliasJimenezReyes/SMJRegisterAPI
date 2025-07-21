@@ -21,7 +21,7 @@ public class CamperSeed
             .RuleFor(x => x.PaidAmount, f => f.Random.Number(0, 2500))
             .RuleFor(x => x.ChurchId, f => f.Random.Number(1, 10));
         
-        foreach (var entity in faker.Generate(50))
+        foreach (var entity in faker.Generate(20))
             modelBuilder.Entity<Camper>().HasData(entity);
     }
 }

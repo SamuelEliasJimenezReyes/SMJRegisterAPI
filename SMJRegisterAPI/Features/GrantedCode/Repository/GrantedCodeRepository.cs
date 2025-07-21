@@ -6,7 +6,7 @@ namespace SMJRegisterAPI.Features.GrantedCode.Repository;
 
 public class GrantedCodeRepository (ApplicationDbContext context, IGenerateCodeService codeGeneratorService) : GenericRepository<Entities.GrantedCode>(context) , IGrantedCodeRepository
 {
-    public async override Task<Entities.GrantedCode> AddAsync(Entities.GrantedCode entity, int Amount)
+    public async  Task<Entities.GrantedCode> AddWithCodeAsync(Entities.GrantedCode entity, int Amount)
     {
         var codeGenerated = codeGeneratorService.GenerateAlphanumericCode();
         var codeExits =  context.GrantedCodes.Any(grantedCode => grantedCode.Code == codeGenerated); 

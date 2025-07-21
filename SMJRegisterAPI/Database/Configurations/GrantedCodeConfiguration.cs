@@ -10,6 +10,8 @@ public class GrantedCodeConfiguration : IEntityTypeConfiguration<GrantedCode>
     {
         builder.ToTable("CodigosDeDescuento");
         
+        builder.HasKey(x => x.ID);
+
         builder.HasQueryFilter(x => !x.IsDeleted);
         
         builder.Property(x => x.Code)
@@ -19,6 +21,6 @@ public class GrantedCodeConfiguration : IEntityTypeConfiguration<GrantedCode>
         
         builder.HasOne(x=> x.Camper)
             .WithOne(x=>x.GrantedCode)
-            .HasForeignKey<GrantedCode>(x=>x.ID);
+            .HasForeignKey<GrantedCode>(x=>x.CamperId);
     }
 }

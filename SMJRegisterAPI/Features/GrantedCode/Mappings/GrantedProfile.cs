@@ -9,5 +9,6 @@ public class GrantedProfile : Profile
     public GrantedProfile()
     {
         CreateMap<GrantedCodeDTO, Entities.GrantedCode>();
+        CreateMap<Entities.GrantedCode,GrantedCodeDTO>();
     }
 }

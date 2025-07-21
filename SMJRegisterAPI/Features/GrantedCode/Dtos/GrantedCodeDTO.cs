@@ -8,5 +8,4 @@ public class GrantedCodeDTO
     public int GrantAmount { get; set; }
     public bool IsUsed { get; set; } = false;
     
-    public CamperDTO Camper { get; set; }
 }

@@ -8,5 +8,6 @@ public class RoomProfile : Profile
     public RoomProfile()
     {
         CreateMap<Entities.Room, RoomDto>();
+        CreateMap<Entities.Room, RoomSimpleDto>();
     }
 }

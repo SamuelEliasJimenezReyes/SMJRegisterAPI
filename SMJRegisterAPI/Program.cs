@@ -6,6 +6,7 @@ using Scalar.AspNetCore;
 using SMJRegisterAPI.Database.Contexts;
 using SMJRegisterAPI.Features.Camper.Repository;
 using SMJRegisterAPI.Features.Common;
+using SMJRegisterAPI.Features.GrantedCode.Repository;
 using SMJRegisterAPI.Services.CodeGenerator;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt=>
     builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
     builder.Services.AddScoped(typeof(ICamperRepository),typeof(CamperRepository));
     builder.Services.AddScoped(typeof(IGenerateCodeService),typeof(GenerateCodeService));
+    builder.Services.AddScoped(typeof(IGrantedCodeRepository),typeof(GrantedCodeRepository));
 #endregion
 
 #region Automapper y MediatR

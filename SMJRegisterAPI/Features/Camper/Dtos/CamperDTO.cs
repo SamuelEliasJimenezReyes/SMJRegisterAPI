@@ -16,5 +16,5 @@ public class CamperDTO
     
     public ChurchSimpleDTO Church { get; set; }
     public GrantedCodeDTO? GrantedCode { get; set; }
-    public RoomDto? Room { get; set; }
+    public RoomSimpleDto? Room { get; set; }
 }

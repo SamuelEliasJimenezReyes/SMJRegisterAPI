@@ -7,6 +7,7 @@ public class CreateCamperDTO
     public string DocumentNumber { get; set; }
     public int PaidAmount { get; set; }
     public bool IsGrant { get; set; }
+    public int GrantedAmount { get; set; }
     public bool IsPaid { get; set; } = false;
 
     public int Gender { get; set; } 
