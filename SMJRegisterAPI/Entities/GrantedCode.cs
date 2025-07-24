@@ -5,10 +5,10 @@ namespace SMJRegisterAPI.Entities;
 public class GrantedCode : BaseEntity
 {
     public string Code { get; set; }
-    public int GrantAmount { get; set; }
-    public bool IsUsed { get; set; } = false;
+    public decimal GrantAmount { get; set; }
+    public bool IsUsed { get; set; }
     
     //RelationShip
-    public int CamperId { get; set; }
+    public int? CamperId { get; set; }
     public Camper Camper { get; set; }
 }

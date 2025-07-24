@@ -7,7 +7,7 @@ namespace SMJRegisterAPI.Features.Camper.Repository;
 public class CamperRepository(ApplicationDbContext context) :  GenericRepository<Entities.Camper>(context), ICamperRepository
 {
    
-    public override async Task<List<Entities.Camper>> GetAllAsync()
+    public override async Task<List<Entities.Camper>> GetAllAsync(int pageNumber, int pageSize)
         =>await context.Campers
             .AsSplitQuery()
             .Include(c => c.Church)

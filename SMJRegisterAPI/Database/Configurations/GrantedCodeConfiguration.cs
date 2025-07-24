@@ -17,8 +17,12 @@ public class GrantedCodeConfiguration : IEntityTypeConfiguration<GrantedCode>
         builder.Property(x => x.Code)
             .HasMaxLength(100)
             .HasColumnName("Codigo");
+
+        builder.Property(x => x.GrantAmount)
+            .HasColumnName("CantidadDescontada")
+            .HasColumnType("decimal(18,2)");
         
-        
+            //RelationShips
         builder.HasOne(x=> x.Camper)
             .WithOne(x=>x.GrantedCode)
             .HasForeignKey<GrantedCode>(x=>x.CamperId);

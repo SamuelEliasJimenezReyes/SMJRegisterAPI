@@ -20,9 +20,5 @@ public class ChurchConfiguration : IEntityTypeConfiguration<Church>
         builder.Property(x => x.Conference)
             .HasConversion<string>()
             .HasColumnName("Conferencia");
-        
-        builder.Property(x => x.Name)
-            .HasMaxLength(100)
-            .HasColumnName("PrimerNombre");
     }
 }

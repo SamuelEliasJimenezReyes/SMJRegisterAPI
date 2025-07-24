@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Carter;
+﻿using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using SMJRegisterAPI.Features.Camper.Command.Create;
@@ -42,8 +41,9 @@ public class CamperEndpoints() : CarterModule("/camper")
     }
 
     private async Task<Created> CreateCamper(ISender sender
-        , CreateCamperCommand command)
+        , CreateCamperDTO dto)
     {
+        var command = new CreateCamperCommand(dto);
         var result = await sender.Send(command);
         return TypedResults.Created();
     }

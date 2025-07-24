@@ -16,5 +16,5 @@ public class CreateCamperDTO
     //relationship
     public int ChurchId { get; set; }
     public int? RoomId { get; set; }
-    public int? GrantedCodeId { get; set; }
+    public string? Code { get; set; }
 }

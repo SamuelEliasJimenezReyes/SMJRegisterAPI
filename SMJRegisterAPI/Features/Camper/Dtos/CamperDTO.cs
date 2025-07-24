@@ -1,7 +1,6 @@
 ﻿using SMJRegisterAPI.Features.Church.Dtos;
 using SMJRegisterAPI.Features.GrantedCode.Dtos;
 using SMJRegisterAPI.Features.Room.Dtos;
-
 namespace SMJRegisterAPI.Features.Camper.Dtos;
 
 public class CamperDTO
@@ -15,6 +14,6 @@ public class CamperDTO
     public string Condition { get; set; }
     
     public ChurchSimpleDTO Church { get; set; }
-    public GrantedCodeDTO? GrantedCode { get; set; }
+    public GrantedCodeSimpleDTO? GrantedCode { get; set; }
     public RoomSimpleDto? Room { get; set; }
 }

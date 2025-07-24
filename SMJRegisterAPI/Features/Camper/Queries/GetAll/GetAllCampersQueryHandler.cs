@@ -11,7 +11,6 @@ public class GetAllCampersQueryHandler(ICamperRepository repository, IMapper map
     : IRequestHandler<GetAllCampersQuery, IList<CamperDTO>>
 {
     
-
     public async Task<IList<CamperDTO>> Handle(GetAllCampersQuery request, CancellationToken cancellationToken)
     {
         var list = await repository.GetAllAsync();

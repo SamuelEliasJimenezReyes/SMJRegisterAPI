@@ -16,23 +16,18 @@ public class CreateCamperCommandHandler(ICamperRepository repository,IGrantedCod
         
         camper.Gender = (Entities.Enums.Gender)request.Camper.Gender;
         camper.Condition = (Entities.Enums.Condition)request.Camper.Condition;
-
         await repository.AddAsync(camper);
-        if (camper.IsGrant)
-        {
-            var camperDb = await repository.GetByIdAsync(camper.ID);
-    
-            var grantedCode = await grantedCodeRepository.AddWithCodeAsync(
-                new Entities.GrantedCode()
-                {
-                    CamperId = camper.ID,
-                },
-                request.Camper.GrantedAmount);
 
+        if (camper.IsGrant && !String.IsNullOrWhiteSpace(request.Camper.Code))
+        {
+            var grantedCode = await grantedCodeRepository.GetByCodeAsync(request.Camper.Code);
+            grantedCode.IsUsed = true;
+            grantedCode.CamperId = camper.ID;
             camper.GrantedCodeId = grantedCode.ID;
-            grantedCode.Camper = camper;
-    
-            await repository.LoadReferenceAsync(camper, c => c.GrantedCode);
+
+            await grantedCodeRepository.UpdateAsync(grantedCode, grantedCode.ID);
+            camper.UpdatedAt = DateTime.Now;
+            await repository.UpdateAsync(camper, camper.ID);
         }
         await repository.LoadReferenceAsync(camper,c=>c.Church);
         await repository.LoadReferenceAsync(camper,c=>c.Room);

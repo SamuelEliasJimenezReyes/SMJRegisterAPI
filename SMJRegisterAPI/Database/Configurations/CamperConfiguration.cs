@@ -28,7 +28,8 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
             .HasColumnName("Apellido");
         
         builder.Property(x => x.PaidAmount)
-            .HasColumnName("CantidadPaga");
+            .HasColumnName("CantidadPaga")
+            .HasColumnType("decimal(18,2)");
         
         builder.Property(x => x.IsGrant)
             .HasColumnName("Becado");

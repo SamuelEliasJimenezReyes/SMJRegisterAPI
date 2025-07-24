@@ -8,29 +8,31 @@ namespace SMJRegisterAPI.Features.Common;
 public class GenericRepository<T>(ApplicationDbContext context) : IGenericRepository<T>
     where T : BaseEntity
 {
-
     public virtual async  Task<T> AddAsync(T entity)
     {
         await context.AddAsync(entity);
         await context.SaveChangesAsync();
         return entity;
     }
-
     public virtual  async Task UpdateAsync(T entity, int id)
     {
-        var entry = await context.Set<T>().FindAsync(id != null); 
+        var entry = await context.Set<T>().FindAsync(id); 
         context.Entry(entry).CurrentValues.SetValues(entity);
         await context.SaveChangesAsync();
     }
-
     public virtual async Task DeleteAsync(T entity)
     {
         entity.IsDeleted = true;
         await context.SaveChangesAsync();
         await context.SaveChangesAsync();
     }
-
-    public virtual async Task<List<T>> GetAllAsync() => await context.Set<T>().ToListAsync(); 
+    public virtual async Task<List<T>> GetAllAsync(int pageNumber = 1 , int pageSize = 10)
+    {
+     return await context.Set<T>()
+         .Skip((pageNumber-1)*pageSize)
+         .Take(pageSize)
+         .ToListAsync(); 
+    } 
 
     public virtual  async Task<T> GetByIdAsync(int id)
     {
@@ -39,12 +41,10 @@ public class GenericRepository<T>(ApplicationDbContext context) : IGenericReposi
 
         return null;
     }
-    
     public async Task LoadReferenceAsync<TProperty>(T entity, Expression<Func<T, TProperty>> navigationProperty)
         where TProperty : class
     {
         var entry = context.Entry(entity);
         await entry.Reference(navigationProperty).LoadAsync();
     }
-
 }
