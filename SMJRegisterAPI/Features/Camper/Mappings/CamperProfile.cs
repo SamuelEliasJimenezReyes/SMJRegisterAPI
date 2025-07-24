@@ -17,6 +17,11 @@ public class CamperProfile : Profile
             .ForMember(dest=>dest.Room,opt=>opt.MapFrom(
                 src=>src.Room));
         CreateMap<Entities.Camper, CreateCamperDTO>();
+        
+        CreateMap<Entities.Camper, CamperSimpleDto>()
+            .ForMember(dest=>dest.Church,
+                opt=>opt.MapFrom(
+                src=>src.Church));
 
         CreateMap<CreateCamperDTO, Entities.Camper>();
         CreateMap<CreateCamperCommand , Entities.Camper>();

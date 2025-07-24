@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using SMJRegisterAPI.Features.Church.Queries.GetAll;
 using SMJRegisterAPI.Features.Room.Command;
+using SMJRegisterAPI.Features.Room.Command.AutomaticSorterByCamperId;
+using SMJRegisterAPI.Features.Room.Command.AutomaticSorterByChurch;
 using SMJRegisterAPI.Features.Room.Dtos;
 using SMJRegisterAPI.Features.Room.Queries.GetAll;
 using SMJRegisterAPI.Features.Room.Queries.GetById;
@@ -16,6 +18,8 @@ public class RoomEndpoints() : CarterModule("/room")
         app.MapGet("/", GetAll);
         app.MapGet("/{id:int}", GetById);
         app.MapPost("/", Create);
+        app.MapPost("/automatic-sorter-by-churchId/{ChurchId:int}", AutomaticSorterByChurchId);
+        app.MapPost("/automatic-sorter-by-camperId/{CamperId:int}", AutomaticSorterByCamperId);
     }
     
     private async Task<Results<Ok<IList<RoomSimpleDto>>, NotFound>> GetAll(ISender sender)
@@ -38,5 +42,24 @@ public class RoomEndpoints() : CarterModule("/room")
         var command = new CreateRoomCommand(dto);
         var result = await sender.Send(command);
         return TypedResults.Created();
+    }
+
+    private async Task<NoContent> AutomaticSorterByChurchId(ISender sender, int ChurchId)
+    {
+        var command = new AutomaticSorterByChurchCommand()
+        {
+            ChurchId = ChurchId
+        };
+        await sender.Send(command);
+        return TypedResults.NoContent();
+    }
+    private async Task<NoContent> AutomaticSorterByCamperId(ISender sender, int CamperId)
+    {
+        var command = new AutomaticSorterByCamperIdCommand()
+        {
+            CamperId = CamperId
+        };
+        await sender.Send(command);
+        return TypedResults.NoContent();
     }
 }
