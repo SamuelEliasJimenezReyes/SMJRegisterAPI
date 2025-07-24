@@ -9,6 +9,7 @@ using SMJRegisterAPI.Features.Camper.Repository;
 using SMJRegisterAPI.Features.Church.Repository;
 using SMJRegisterAPI.Features.Common;
 using SMJRegisterAPI.Features.GrantedCode.Repository;
+using SMJRegisterAPI.Features.Room.Repository;
 using SMJRegisterAPI.Middlewares;
 using SMJRegisterAPI.Services.CodeGenerator;
 
@@ -28,6 +29,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt=>
     builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
     builder.Services.AddScoped(typeof(ICamperRepository),typeof(CamperRepository));
     builder.Services.AddScoped(typeof(IChurchRepository),typeof(ChurchRepository));
+    builder.Services.AddScoped(typeof(IRoomRepository),typeof(RoomRepository));
     builder.Services.AddScoped(typeof(IGenerateCodeService),typeof(GenerateCodeService));
     builder.Services.AddScoped(typeof(IGrantedCodeRepository),typeof(GrantedCodeRepository));
     builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));

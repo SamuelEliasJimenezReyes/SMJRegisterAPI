@@ -48,6 +48,7 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
         
         builder.HasOne(x=>x.Room)
             .WithMany(x=>x.Campers)
-            .HasForeignKey(x=>x.RoomId);
+            .HasForeignKey(x=>x.RoomId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

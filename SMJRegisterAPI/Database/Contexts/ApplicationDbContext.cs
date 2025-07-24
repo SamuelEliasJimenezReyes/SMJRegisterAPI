@@ -16,5 +16,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         
         ChurchSeed.Seed(modelBuilder);
         CamperSeed.Seed(modelBuilder);
+        RoomSeed.Seed(modelBuilder);
     }
 }

@@ -18,13 +18,14 @@ public class RoomSeed
             "Piso 3"
         };
 
-        
+        var id = 1;
         var faker = new Faker<Room>("es")
+            .RuleFor(x => x.ID, f => id++)
             .RuleFor(p=>p.Capacity , f=>f.Random.Int(2,51))
             .RuleFor(p=>p.Name, f=>f.PickRandom(roomsNames));
         
         foreach (var entity in faker.Generate(5))
-            modelBuilder.Entity<Camper>().HasData(entity);
+            modelBuilder.Entity<Room>().HasData(entity);
         
     }
 }

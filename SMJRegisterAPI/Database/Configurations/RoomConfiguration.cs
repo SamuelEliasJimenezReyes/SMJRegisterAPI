@@ -10,6 +10,7 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
     {
         builder.ToTable("Habitaciones");
         
+        builder.HasKey(x => x.ID);
         builder.HasQueryFilter(x => !x.IsDeleted);
         
         builder.Property(x => x.Name)
@@ -19,5 +20,9 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
         builder.Property(x=>x.Capacity)
             .HasColumnName("CapacidadMaxima");
         
+        builder.HasMany(x => x.Campers)
+            .WithOne(x => x.Room)
+            .HasForeignKey(x => x.RoomId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
