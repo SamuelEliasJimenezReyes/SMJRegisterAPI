@@ -12,6 +12,7 @@ public class CamperDTO
     public bool IsGrant { get; set; } 
     public string Gender { get; set; }
     public string Condition { get; set; }
+    public string PayType { get; set; }
     public List<string>? DocumentsURL { get; set; }
 
     

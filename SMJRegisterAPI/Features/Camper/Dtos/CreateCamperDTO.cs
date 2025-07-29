@@ -12,7 +12,8 @@ public class CreateCamperDTO
     public IReadOnlyList<IFormFile> Documents { get; set; }
     public int Gender { get; set; } 
     public int Condition { get; set; }
-    
+    public int PayType { get; set; }
+
     //relationship
     public int ChurchId { get; set; }
     public int? RoomId { get; set; }

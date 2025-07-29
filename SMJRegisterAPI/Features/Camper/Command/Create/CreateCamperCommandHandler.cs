@@ -20,6 +20,7 @@ public class CreateCamperCommandHandler(ICamperRepository repository,
         
         camper.Gender = (Entities.Enums.Gender)request.Camper.Gender;
         camper.Condition = (Entities.Enums.Condition)request.Camper.Condition;
+        camper.PayType = (Entities.Enums.PayType)request.Camper.PayType;
         await repository.AddAsync(camper);
 
 
