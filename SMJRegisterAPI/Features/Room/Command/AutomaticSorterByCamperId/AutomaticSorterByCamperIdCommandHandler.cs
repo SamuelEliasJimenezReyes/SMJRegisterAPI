@@ -12,12 +12,13 @@ public class AutomaticSorterByCamperIdCommandHandler (IRoomRepository repository
         var camper = await camperRepository.GetByIdAsync(request.CamperId);
 
         var rooms = await repository.GetAllRoomsWhitCamper();
-        var availlableRoom = rooms.FirstOrDefault(r=>r.Campers.Count < r.Capacity);
+        var availableRoom = rooms.FirstOrDefault(r=>r.Campers.Count < r.MaxCapacity);
 
-        if (availlableRoom is not null)
+        if (availableRoom is not null)
         {
-            camper.RoomId = availlableRoom.ID;
-            availlableRoom.Campers.Add(camper);
+            camper.RoomId = availableRoom.ID;
+            availableRoom.CurrentCapacity++;
+            availableRoom.Campers.Add(camper);
             await camperRepository.UpdateAsync(camper, request.CamperId);
         }
         return Unit.Value;

@@ -12,6 +12,7 @@ using SMJRegisterAPI.Features.GrantedCode.Repository;
 using SMJRegisterAPI.Features.Room.Repository;
 using SMJRegisterAPI.Middlewares;
 using SMJRegisterAPI.Services.CodeGenerator;
+using SMJRegisterAPI.Services.FileStore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,8 +33,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt=>
     builder.Services.AddScoped(typeof(IRoomRepository),typeof(RoomRepository));
     builder.Services.AddScoped(typeof(IGenerateCodeService),typeof(GenerateCodeService));
     builder.Services.AddScoped(typeof(IGrantedCodeRepository),typeof(GrantedCodeRepository));
+    builder.Services.AddScoped(typeof(IFileStorage),typeof(FileStorage));
     builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+    builder.Services.AddHttpContextAccessor();
 
 #endregion
 

@@ -16,11 +16,12 @@ public class AutomaticSorterByChurchCommandHandler(IRoomRepository repository, I
 
         foreach (var camper in unassinged)
         {
-            var availableRoom = rooms.FirstOrDefault(r => r.Campers.Count < r.Capacity);
+            var availableRoom = rooms.FirstOrDefault(r => r.Campers.Count < r.MaxCapacity);
 
             if (availableRoom is not null)
             {
                 camper.RoomId = availableRoom.ID;
+                availableRoom.CurrentCapacity++;
                 availableRoom.Campers.Add(camper);
                 await camperRepository.UpdateAsync(camper, camper.ID);
             }

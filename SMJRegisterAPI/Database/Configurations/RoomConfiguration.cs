@@ -17,8 +17,11 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
             .HasMaxLength(100)
             .HasColumnName("NombreHabitacion");
         
-        builder.Property(x=>x.Capacity)
+        builder.Property(x=>x.MaxCapacity)
             .HasColumnName("CapacidadMaxima");
+        
+        builder.Property(x=>x.CurrentCapacity)
+            .HasColumnName("CapacidadActual");
         
         builder.HasMany(x => x.Campers)
             .WithOne(x => x.Room)

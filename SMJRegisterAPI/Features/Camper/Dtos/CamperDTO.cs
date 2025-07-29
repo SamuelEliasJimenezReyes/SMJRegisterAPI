@@ -12,6 +12,8 @@ public class CamperDTO
     public bool IsGrant { get; set; } 
     public string Gender { get; set; }
     public string Condition { get; set; }
+    public List<string>? DocumentsURL { get; set; }
+
     
     public ChurchSimpleDTO Church { get; set; }
     public GrantedCodeSimpleDTO? GrantedCode { get; set; }

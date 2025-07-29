@@ -3,10 +3,14 @@ using MediatR;
 using SMJRegisterAPI.Features.Camper.Dtos;
 using SMJRegisterAPI.Features.Camper.Repository;
 using SMJRegisterAPI.Features.GrantedCode.Repository;
+using SMJRegisterAPI.Services.FileStore;
 
 namespace SMJRegisterAPI.Features.Camper.Command.Create;
 
-public class CreateCamperCommandHandler(ICamperRepository repository,IGrantedCodeRepository grantedCodeRepository, IMapper mapper)
+public class CreateCamperCommandHandler(ICamperRepository repository,
+    IGrantedCodeRepository grantedCodeRepository, 
+    IMapper mapper,
+    IFileStorage storage)
     : IRequestHandler<CreateCamperCommand, CreateCamperDTO>
 {
 
@@ -18,6 +22,15 @@ public class CreateCamperCommandHandler(ICamperRepository repository,IGrantedCod
         camper.Condition = (Entities.Enums.Condition)request.Camper.Condition;
         await repository.AddAsync(camper);
 
+
+        if (request.Camper.Documents is not null && request.Camper.Documents.Any())
+        {
+            var folderName = $"Camper-{camper.ID}-{camper.Name}-{camper.LastName}";
+            var urls = await storage.MultipleStore("camper-documents", folderName, request.Camper.Documents);
+            camper.DocumentsURL = urls;
+            camper.UpdatedAt = DateTime.Now;
+            await repository.UpdateAsync(camper,camper.ID);
+        }
         if (camper.IsGrant && !String.IsNullOrWhiteSpace(request.Camper.Code))
         {
             var grantedCode = await grantedCodeRepository.GetByCodeAsync(request.Camper.Code);
@@ -29,8 +42,6 @@ public class CreateCamperCommandHandler(ICamperRepository repository,IGrantedCod
             camper.UpdatedAt = DateTime.Now;
             await repository.UpdateAsync(camper, camper.ID);
         }
-        await repository.LoadReferenceAsync(camper,c=>c.Church);
-        await repository.LoadReferenceAsync(camper,c=>c.Room);
 
         var Dto = mapper.Map<CreateCamperDTO>(camper);
         return Dto;

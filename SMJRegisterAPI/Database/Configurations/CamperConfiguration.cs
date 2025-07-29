@@ -41,6 +41,10 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
         builder.Property(x => x.Condition)
             .HasConversion<string>()
             .HasColumnName("Condicion");
+        
+        builder.Property(x => x.PayType)
+            .HasConversion<string>()
+            .HasColumnName("TipoDePago");
 
         builder.HasOne(x=> x.Church)
             .WithMany(x=>x.Campers)

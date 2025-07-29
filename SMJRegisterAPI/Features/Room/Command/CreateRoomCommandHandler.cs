@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Runtime.Intrinsics.X86;
+using AutoMapper;
 using MediatR;
 using SMJRegisterAPI.Features.Room.Dtos;
 using SMJRegisterAPI.Features.Room.Repository;

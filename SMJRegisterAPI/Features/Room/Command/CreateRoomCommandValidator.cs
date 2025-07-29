@@ -6,7 +6,7 @@ public class CreateRoomCommandValidator : AbstractValidator<CreateRoomCommand>
 {
     public CreateRoomCommandValidator()
     {
-        RuleFor(x=>x.Room.Capacity)
+        RuleFor(x=>x.Room.MaxCapacity)
             .GreaterThan(0)
             .WithMessage("Ingrese una Capacidad");
         

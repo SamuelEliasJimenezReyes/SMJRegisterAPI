@@ -1,6 +1,7 @@
 ﻿using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using SMJRegisterAPI.Features.Camper.Command.Create;
 using SMJRegisterAPI.Features.Camper.Dtos;
 using SMJRegisterAPI.Features.Camper.Queries.GetAll;
@@ -17,14 +18,16 @@ public class CamperEndpoints() : CarterModule("/camper")
     {
         app.MapGet("/", GetAllCampers);
         app.MapGet("/{id:int}", GetCamperById);
-        app.MapPost("/", CreateCamper);
+        app.MapPost("/", CreateCamper)
+            .Accepts<CreateCamperDTO>("multipart/form-data")
+            .DisableAntiforgery();
         app.MapGet("/get-by-condition{condition:int}", GetAllByCondition);
         app.MapGet("/get-by-church/{churchId:int}", GetAllByChurchId);
         app.MapGet("/get-by-conference/{conference:int}", GetAllByConference);
     }
 
     
-    private async Task<Results<Ok<IList<CamperDTO>>, NotFound>> GetAllCampers(ISender sender)
+    private async Task<Results<Ok<IList<CamperSimpleDto>>, NotFound>> GetAllCampers(ISender sender)
     {
         var result = await sender.Send(new GetAllCampersQuery());
         return result is null ? TypedResults.NotFound() : TypedResults.Ok(result);
@@ -41,7 +44,7 @@ public class CamperEndpoints() : CarterModule("/camper")
     }
 
     private async Task<Created> CreateCamper(ISender sender
-        , CreateCamperDTO dto)
+        ,[FromForm] CreateCamperDTO dto)
     {
         var command = new CreateCamperCommand(dto);
         var result = await sender.Send(command);

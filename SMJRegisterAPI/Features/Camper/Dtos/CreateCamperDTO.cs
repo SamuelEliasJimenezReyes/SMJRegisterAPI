@@ -9,7 +9,7 @@ public class CreateCamperDTO
     public bool IsGrant { get; set; }
     public int GrantedAmount { get; set; }
     public bool IsPaid { get; set; } = false;
-
+    public IReadOnlyList<IFormFile> Documents { get; set; }
     public int Gender { get; set; } 
     public int Condition { get; set; }
     
