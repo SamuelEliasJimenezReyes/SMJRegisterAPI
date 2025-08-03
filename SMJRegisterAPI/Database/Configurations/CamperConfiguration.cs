@@ -31,6 +31,10 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
             .HasColumnName("CantidadPaga")
             .HasColumnType("decimal(18,2)");
         
+        builder.Property(x => x.TotalAmount)
+            .HasColumnName("CantidadAPagar")
+            .HasColumnType("decimal(18,2)");
+        
         builder.Property(x => x.IsGrant)
             .HasColumnName("Becado");
         
@@ -45,6 +49,11 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
         builder.Property(x => x.PayType)
             .HasConversion<string>()
             .HasColumnName("TipoDePago");
+        
+        builder.Property(x => x.ShirtSize)
+            .HasConversion<string>()
+            .HasColumnName("SizeDeCamisa");
+
 
         builder.HasOne(x=> x.Church)
             .WithMany(x=>x.Campers)

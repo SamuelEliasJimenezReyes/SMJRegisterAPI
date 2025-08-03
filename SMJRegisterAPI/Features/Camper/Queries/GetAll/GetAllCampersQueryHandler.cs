@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Globalization;
+using AutoMapper;
+using Humanizer;
 using MediatR;
 using SMJRegisterAPI.Database.Contexts;
 using SMJRegisterAPI.Features.Camper.Dtos;
@@ -14,6 +16,12 @@ public class GetAllCampersQueryHandler(ICamperRepository repository, IMapper map
     public async Task<IList<CamperSimpleDto>> Handle(GetAllCampersQuery request, CancellationToken cancellationToken)
     {
         var list = await repository.GetAllAsync();
-        return mapper.Map<IList<CamperSimpleDto>>(list);
+        var mapped =  mapper.Map<IList<CamperSimpleDto>>(list);
+        CultureInfo.CurrentCulture = new CultureInfo("es");
+        foreach (var camper in mapped)
+        {
+            camper.ArrivedTimeHumanized = camper.ArrivedTime.Humanize(true,null,new CultureInfo("es"));
+        }
+        return mapped;
     }
 }

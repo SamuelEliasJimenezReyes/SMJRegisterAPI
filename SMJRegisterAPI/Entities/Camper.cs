@@ -10,11 +10,14 @@ public class Camper : BaseEntity
     public string DocumentNumber { get; set; }
     public List<string>? DocumentsURL { get; set; }
     public decimal  PaidAmount { get; set; }
+    public decimal  TotalAmount { get; set; }
     public bool IsGrant { get; set; } = false;
     public bool IsPaid { get; set; } = false;
     public Gender Gender { get; set; }
     public Condition Condition { get; set; }
     public PayType PayType { get; set; }
+    public ShirtSize ShirtSize { get; set; }
+    public DateTime ArrivedTime { get; set; }
     
     //RelationsShip
     public int ChurchId { get; set; }

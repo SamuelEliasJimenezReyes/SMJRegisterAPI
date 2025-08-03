@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SMJRegisterAPI.Features.Camper.Command.Create;
+using SMJRegisterAPI.Features.Camper.Command.Update;
 using SMJRegisterAPI.Features.Camper.Dtos;
 using SMJRegisterAPI.Features.Camper.Queries.GetAll;
 using SMJRegisterAPI.Features.Camper.Queries.GetAllByChurchID;
@@ -24,6 +25,7 @@ public class CamperEndpoints() : CarterModule("/camper")
         app.MapGet("/get-by-condition{condition:int}", GetAllByCondition);
         app.MapGet("/get-by-church/{churchId:int}", GetAllByChurchId);
         app.MapGet("/get-by-conference/{conference:int}", GetAllByConference);
+        app.MapPut("/{id:int}", UpdateCamper);
     }
 
     
@@ -75,6 +77,12 @@ public class CamperEndpoints() : CarterModule("/camper")
         {
             Conference = conference
         });
+        return result is null ? TypedResults.NotFound() : TypedResults.Ok(result);
+    }
+    private async Task<Results<Ok<UpdateCamperDTO>, NotFound>> UpdateCamper(ISender sender, int id, UpdateCamperDTO dto)
+    {
+        var command = new UpdateCamperCommand( dto, id);
+        var result = await sender.Send(command);
         return result is null ? TypedResults.NotFound() : TypedResults.Ok(result);
     }
 

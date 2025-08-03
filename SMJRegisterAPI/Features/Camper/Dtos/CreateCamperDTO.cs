@@ -7,12 +7,14 @@ public class CreateCamperDTO
     public string DocumentNumber { get; set; }
     public int PaidAmount { get; set; }
     public bool IsGrant { get; set; }
-    public int GrantedAmount { get; set; }
+    public decimal GrantedAmount { get; set; }
     public bool IsPaid { get; set; } = false;
-    public IReadOnlyList<IFormFile> Documents { get; set; }
+    public IReadOnlyList<IFormFile>? Documents { get; set; }
     public int Gender { get; set; } 
     public int Condition { get; set; }
     public int PayType { get; set; }
+    public int ShirtSize { get; set; }
+    public DateTime ArrivedTime { get; set; }
 
     //relationship
     public int ChurchId { get; set; }

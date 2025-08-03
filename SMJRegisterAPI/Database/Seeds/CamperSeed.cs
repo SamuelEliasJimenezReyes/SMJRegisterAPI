@@ -18,6 +18,8 @@ public class CamperSeed
             .RuleFor(x => x.DocumentNumber, f => f.Random.String2(11, "0123456789"))
             .RuleFor(x => x.Gender, f => f.PickRandom<Gender>())
             .RuleFor(x => x.Condition, f => f.PickRandom<Condition>())
+            .RuleFor(x => x.PayType, f => f.PickRandom<PayType>())
+            .RuleFor(x => x.ShirtSize, f => f.PickRandom<ShirtSize>())
             .RuleFor(x => x.PaidAmount, f => f.Random.Number(0, 2500))
             .RuleFor(x => x.ChurchId, f => f.Random.Number(1, 10));
         

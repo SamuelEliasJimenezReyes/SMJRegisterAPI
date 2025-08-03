@@ -16,6 +16,7 @@ public class CamperProfile : Profile
                 src=>src.GrantedCode))
             .ForMember(dest=>dest.Room,opt=>opt.MapFrom(
                 src=>src.Room));
+        
         CreateMap<Entities.Camper, CreateCamperDTO>();
         
         CreateMap<Entities.Camper, CamperSimpleDto>()
@@ -25,6 +26,16 @@ public class CamperProfile : Profile
 
         CreateMap<CreateCamperDTO, Entities.Camper>();
         CreateMap<CreateCamperCommand , Entities.Camper>();
+        
+        CreateMap<Entities.Camper, UpdateCamperDTO>();
+
+        CreateMap<UpdateCamperDTO, Entities.Camper>()
+            .ForMember(dest => dest.DocumentNumber, opt => opt.Ignore())
+            .ForMember(dest => dest.DocumentsURL, opt => opt.Ignore())
+            .ForMember(dest => dest.TotalAmount, opt => opt.Ignore())
+            .ForMember(dest => dest.GrantedCodeId, opt => opt.Ignore())
+            .ForMember(dest => dest.ArrivedTime, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
     }
     
 }
