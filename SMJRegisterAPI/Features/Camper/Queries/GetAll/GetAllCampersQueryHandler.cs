@@ -12,7 +12,6 @@ namespace SMJRegisterAPI.Features.Camper.Queries.GetAll;
 public class GetAllCampersQueryHandler(ICamperRepository repository, IMapper mapper)
     : IRequestHandler<GetAllCampersQuery, IList<CamperSimpleDto>>
 {
-    
     public async Task<IList<CamperSimpleDto>> Handle(GetAllCampersQuery request, CancellationToken cancellationToken)
     {
         var list = await repository.GetAllAsync();

@@ -18,7 +18,6 @@ public class UpdateCamperCommandHandler(
     {
         var camper = await repository.GetByIdAsync(request.Id);
 
-        // Solo se actualizan los campos permitidos
         camper.Name = request.Camper.Name;
         camper.LastName = request.Camper.LastName;
         camper.PaidAmount = request.Camper.PaidAmount;
@@ -29,7 +28,8 @@ public class UpdateCamperCommandHandler(
         camper.PayType = (Entities.Enums.PayType)request.Camper.PayType;
         camper.ShirtSize = (Entities.Enums.ShirtSize)request.Camper.ShirtSize;
         camper.ChurchId = request.Camper.ChurchId;
-        camper.RoomId = request.Camper.RoomId;
+        if(request.Camper.RoomId == 0)
+            camper.RoomId = null;   
 
         camper.UpdatedAt = DateTime.Now;
 
