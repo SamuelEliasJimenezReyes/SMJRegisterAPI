@@ -10,6 +10,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Room> Rooms { get; set; }
     public DbSet<GrantedCode> GrantedCodes { get; set; }
     public DbSet<Church> Churches { get; set; }
+    public DbSet<BanksInformation> BanksInformations { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);    
@@ -17,5 +18,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         ChurchSeed.Seed(modelBuilder);
         CamperSeed.Seed(modelBuilder);
         RoomSeed.Seed(modelBuilder);
+        BankInformationSeed.Seed(modelBuilder);
     }
 }

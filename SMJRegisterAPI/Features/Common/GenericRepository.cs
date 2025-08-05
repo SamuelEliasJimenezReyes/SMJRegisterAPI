@@ -38,7 +38,6 @@ public class GenericRepository<T>(ApplicationDbContext context) : IGenericReposi
     {
         if (await context.Set<T>().FindAsync(id) != null) 
             await context.Set<T>().FindAsync(id);
-
         return null;
     }
     public async Task LoadReferenceAsync<TProperty>(T entity, Expression<Func<T, TProperty>> navigationProperty)

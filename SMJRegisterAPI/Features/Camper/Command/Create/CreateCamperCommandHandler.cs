@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq.Expressions;
+using AutoMapper;
 using MediatR;
 using SMJRegisterAPI.Features.Camper.Dtos;
 using SMJRegisterAPI.Features.Camper.Repository;

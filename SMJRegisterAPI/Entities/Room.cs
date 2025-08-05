@@ -1,7 +1,5 @@
 ﻿using SMJRegisterAPI.Common.Entities;
-
-namespace SMJRegisterAPI.Entities;
-
+namespace SMJRegisterAPI.Entities; 
 public class Room : BaseEntity
 {
     public string Name { get; set; }

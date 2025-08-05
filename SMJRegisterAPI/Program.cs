@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using SMJRegisterAPI.Database.Contexts;
+using SMJRegisterAPI.Features.BanksInformation.Repository;
 using SMJRegisterAPI.Features.Camper.Repository;
 using SMJRegisterAPI.Features.Church.Repository;
 using SMJRegisterAPI.Features.Common;
@@ -33,6 +34,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt=>
     builder.Services.AddScoped(typeof(IRoomRepository),typeof(RoomRepository));
     builder.Services.AddScoped(typeof(IGenerateCodeService),typeof(GenerateCodeService));
     builder.Services.AddScoped(typeof(IGrantedCodeRepository),typeof(GrantedCodeRepository));
+    builder.Services.AddScoped(typeof(IBankInformationRepository),typeof(BankInformationRepository));
     builder.Services.AddScoped(typeof(IFileStorage),typeof(FileStorage));
     builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 

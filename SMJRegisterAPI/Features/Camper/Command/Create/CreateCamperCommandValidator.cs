@@ -27,7 +27,7 @@ public class CreateCamperCommandValidator : AbstractValidator<CreateCamperComman
             .NotNull().WithMessage("El apellido no puede estar vacio");
         
         RuleFor(x => x.Camper.Gender)
-            .GreaterThan(0)
+            .IsInEnum()
             .WithMessage("El genero no puede estar vacio");
         
         RuleFor(x => x.Camper.Code)

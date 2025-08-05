@@ -1,5 +1,4 @@
 ﻿using SMJRegisterAPI.Features.Church.Dtos;
-
 namespace SMJRegisterAPI.Features.Camper.Dtos;
 
 public class CamperSimpleDto

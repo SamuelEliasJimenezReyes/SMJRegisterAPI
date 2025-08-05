@@ -11,6 +11,8 @@ public class ChurchConfiguration : IEntityTypeConfiguration<Church>
     {
         builder.ToTable("Iglesias");
         
+        builder.HasKey(x => x.ID);
+        
         builder.HasQueryFilter(x => !x.IsDeleted);
         
         builder.Property(x => x.Name)
