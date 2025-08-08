@@ -15,9 +15,6 @@ public class GetCamperByIdQueryHandler(ICamperRepository repository, IMapper map
     {
         var entityDb = await repository.GetByIdAsync(request.ID);
         var mapped = mapper.Map<CamperDTO>(entityDb);
-        CultureInfo.CurrentCulture = new CultureInfo("es");
-
-        mapped.ArrivedTimeHumanized = mapped.ArrivedTime.Humanize(true, null, new CultureInfo("es"));
         return mapped;
     }
 }

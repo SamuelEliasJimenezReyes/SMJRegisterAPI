@@ -4,8 +4,10 @@ public class CreateCamperDTO
 {
     public string Name { get; set; }
     public string LastName { get; set; }
-    public string DocumentNumber { get; set; }
-    public int PaidAmount { get; set; }
+    public string PhoneNumber { get; set; }
+    public string Coments { get; set; }
+    public int Age { get; set; }
+    public decimal PaidAmount { get; set; }
     public bool IsGrant { get; set; }
     public decimal GrantedAmount { get; set; }
     public bool IsPaid { get; set; } = false;
@@ -14,6 +16,7 @@ public class CreateCamperDTO
     public int Condition { get; set; }
     public int PayType { get; set; }
     public int ShirtSize { get; set; }
+    public int ArrivedTimeSlot { get; set; }
     public DateTime ArrivedTime { get; set; }
 
     //relationship

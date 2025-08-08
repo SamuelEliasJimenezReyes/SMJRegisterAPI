@@ -16,15 +16,14 @@ public class CamperRepository(ApplicationDbContext context) :  GenericRepository
             .ToListAsync();
 
     public override async Task<Entities.Camper> GetByIdAsync(int id)
-    {
-        var entiy = await context.Campers
+        => await context.Campers
             .Include(c=>c.Church)
             .Include(c => c.Room)
             .Include(c=>c.GrantedCode)
             .Where(x=>x.ID == id)
             .FirstOrDefaultAsync();
-        return entiy;
-    }
+
+    
 
     public async Task<List<Entities.Camper>> GetAllByChurchIDAsync(int churchID)
     => await context.Campers

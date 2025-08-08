@@ -16,11 +16,6 @@ public class GetAllCampersQueryHandler(ICamperRepository repository, IMapper map
     {
         var list = await repository.GetAllAsync();
         var mapped =  mapper.Map<IList<CamperSimpleDto>>(list);
-        CultureInfo.CurrentCulture = new CultureInfo("es");
-        foreach (var camper in mapped)
-        {
-            camper.ArrivedTimeHumanized = camper.ArrivedTime.Humanize(true,null,new CultureInfo("es"));
-        }
         return mapped;
     }
 }

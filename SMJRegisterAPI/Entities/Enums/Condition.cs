@@ -16,4 +16,8 @@ public enum Condition
     [Description("Directivo")] 
     [Display(Name = "Directivo")]
     Executive,
+    
+    [Description("Danzarina")] 
+    [Display(Name = "Danzarina")]
+    Dancer
 }

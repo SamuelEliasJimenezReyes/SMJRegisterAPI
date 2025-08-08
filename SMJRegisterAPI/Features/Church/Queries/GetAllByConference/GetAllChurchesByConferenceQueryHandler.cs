@@ -9,8 +9,7 @@ public class GetAllChurchesByConferenceQueryHandler(IChurchRepository repository
 {
     public async Task<IList<ChurchSimpleDTO>> Handle(GetAllChurchesByConferenceQuery request, CancellationToken cancellationToken)
     {
-        var list = await repository.GetAllAsync();
-        var filteredList = list.Where(x=>x.Conference==(Entities.Enums.Conference)request.Conference).ToList();
-        return mapper.Map<IList<ChurchSimpleDTO>>(filteredList);
+        var list = await repository.GetByConference(request.Conference);
+        return mapper.Map<IList<ChurchSimpleDTO>>(list);
     }
 }

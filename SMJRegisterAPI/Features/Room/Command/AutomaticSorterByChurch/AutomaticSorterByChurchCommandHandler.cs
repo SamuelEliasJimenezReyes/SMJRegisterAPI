@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SMJRegisterAPI.Features.Camper.Repository;
 using SMJRegisterAPI.Features.Room.Repository;
+using SMJRegisterAPI.Entities.Enums;
 
 namespace SMJRegisterAPI.Features.Room.Command.AutomaticSorterByChurch;
 
@@ -10,11 +11,27 @@ public class AutomaticSorterByChurchCommandHandler(IRoomRepository repository, I
     public async Task<Unit> Handle(AutomaticSorterByChurchCommand request, CancellationToken cancellationToken)
     {
         var campers = await camperRepository.GetAllByChurchIDAsync(request.ChurchId);
-        var unassinged = campers.Where(x => x.RoomId is null or 0 ).ToList();
+        var unassigned = campers.Where(x => x.RoomId is null or 0).ToList();
 
-        var rooms = await repository.GetAllRoomsWhitCamper();
+        var femaleRooms = await repository.GetRoomsByGender(Gender.Female);
+        var maleRooms = await repository.GetRoomsByGender(Gender.Male);
+        
+        var females = unassigned.Where(c => c.Gender == Gender.Female).ToList();
+        var males = unassigned.Where(c => c.Gender == Gender.Male).ToList();
+        
+        await AssignCampersToRooms(females, femaleRooms, camperRepository);
+        await AssignCampersToRooms(males, maleRooms, camperRepository);
 
-        foreach (var camper in unassinged)
+        return Unit.Value;
+    }
+
+
+    private async Task AssignCampersToRooms(
+        List<Entities.Camper> campers,
+        IEnumerable<Entities.Room> rooms,
+        ICamperRepository camperRepository)
+    {
+        foreach (var camper in campers)
         {
             var availableRoom = rooms.FirstOrDefault(r => r.Campers.Count < r.MaxCapacity);
 
@@ -26,6 +43,5 @@ public class AutomaticSorterByChurchCommandHandler(IRoomRepository repository, I
                 await camperRepository.UpdateAsync(camper, camper.ID);
             }
         }
-        return Unit.Value;
     }
 }

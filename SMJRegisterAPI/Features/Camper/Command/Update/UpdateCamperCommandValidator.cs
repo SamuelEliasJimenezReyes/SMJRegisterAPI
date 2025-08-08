@@ -6,7 +6,6 @@ namespace SMJRegisterAPI.Features.Camper.Command.Update;
 public class UpdateCamperCommandValidator : AbstractValidator<UpdateCamperCommand>
 {
     private readonly IServiceProvider _serviceProvider;
-
     public UpdateCamperCommandValidator(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
@@ -24,19 +23,19 @@ public class UpdateCamperCommandValidator : AbstractValidator<UpdateCamperComman
             .NotNull().WithMessage("El apellido no puede estar vacío");
 
         RuleFor(x => x.Camper.Gender)
-            .IsInEnum()
+            .GreaterThan(0)
             .WithMessage("Debe seleccionar un género válido");
 
         RuleFor(x => x.Camper.Condition)
-            .IsInEnum()
+            .GreaterThan(0)
             .WithMessage("Debe seleccionar una condición válida");
 
         RuleFor(x => x.Camper.PayType)
-            .IsInEnum()
+            .GreaterThan(0)
             .WithMessage("Debe seleccionar un tipo de pago válido");
 
         RuleFor(x => x.Camper.ShirtSize)
-            .IsInEnum()
+            .GreaterThan(0)
             .WithMessage("Debe seleccionar una talla de camiseta válida");
 
         RuleFor(x => x.Camper.ChurchId)

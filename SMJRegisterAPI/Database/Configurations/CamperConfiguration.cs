@@ -18,14 +18,21 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
             .HasMaxLength(100)
             .HasColumnName("Nombre");
         
-        builder.Property(x => x.DocumentNumber)
+        builder.Property(x => x.PhoneNumber)
             .IsRequired()
             .HasMaxLength(11)
-            .HasColumnName("Cedula");
+            .HasColumnName("NumeroDeTelefono");
 
         builder.Property(x => x.LastName)
             .HasMaxLength(100)
             .HasColumnName("Apellido");
+        
+        builder.Property(x => x.Age)
+            .HasColumnName("Edad");
+        
+        builder.Property(x => x.Coments)
+            .HasConversion<string>()
+            .HasColumnName("Comentarios");
         
         builder.Property(x => x.PaidAmount)
             .HasColumnName("CantidadPaga")
@@ -46,7 +53,7 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
             .HasConversion<string>()
             .HasColumnName("Condicion");
         
-        builder.Property(x => x.PayType)
+        builder.Property(x => x.PayWay)
             .HasConversion<string>()
             .HasColumnName("TipoDePago");
         
@@ -54,6 +61,9 @@ public class CamperConfiguration : IEntityTypeConfiguration<Camper>
             .HasConversion<string>()
             .HasColumnName("SizeDeCamisa");
 
+        builder.Property(x => x.ArrivedTimeSlot)
+            .HasConversion<string>()
+            .HasColumnName("HoraDeLlegada");
 
         builder.HasOne(x=> x.Church)
             .WithMany(x=>x.Campers)

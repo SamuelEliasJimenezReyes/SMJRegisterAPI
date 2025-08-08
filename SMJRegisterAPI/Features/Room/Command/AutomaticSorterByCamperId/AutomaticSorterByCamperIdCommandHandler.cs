@@ -13,7 +13,7 @@ public class AutomaticSorterByCamperIdCommandHandler (IRoomRepository repository
 
         var rooms = await repository.GetAllRoomsWhitCamper();
         var availableRoom = rooms.FirstOrDefault(r=>r.Campers.Count < r.MaxCapacity);
-
+        var females = rooms.Where(r => r.Campers.Count < r.MaxCapacity);
         if (availableRoom is not null)
         {
             camper.RoomId = availableRoom.ID;

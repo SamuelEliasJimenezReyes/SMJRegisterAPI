@@ -1,7 +1,6 @@
 ﻿using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
-using SMJRegisterAPI.Features.Church.Queries.GetAll;
 using SMJRegisterAPI.Features.Room.Command;
 using SMJRegisterAPI.Features.Room.Command.AutomaticSorterByCamperId;
 using SMJRegisterAPI.Features.Room.Command.AutomaticSorterByChurch;

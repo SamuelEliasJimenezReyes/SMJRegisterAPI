@@ -20,4 +20,12 @@ public class RoomRepository(ApplicationDbContext context) : GenericRepository<En
             .Include(x => x.Campers)
             .FirstOrDefaultAsync(x=>x.ID == id);
     }
+    
+    public async Task<IEnumerable<Entities.Room>> GetRoomsByGender(Entities.Enums.Gender gender)
+    {
+        return await context.Rooms
+            .Include(x => x.Campers)
+            .Where(x => x.Gender == gender)
+            .ToListAsync();
+    }
 }

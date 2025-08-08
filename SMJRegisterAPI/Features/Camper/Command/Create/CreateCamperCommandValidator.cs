@@ -12,11 +12,11 @@ public class CreateCamperCommandValidator : AbstractValidator<CreateCamperComman
     {
         _serviceProvider = serviceProvider;
 
-        RuleFor(x => x.Camper.DocumentNumber)
-            .NotEmpty().WithMessage("El numero de cedula no puede estar vacio")
-            .NotNull().WithMessage("El Numero de cedula no puede estar vacio")
-            .Matches("^[0-9]+$").WithMessage("La cédula debe contener solo dígitos númericos.")
-            .Length(11).WithMessage("La cédula solo debe tener 11 dígitos");
+        RuleFor(x => x.Camper.PhoneNumber)
+            .NotEmpty().WithMessage("El número de teléfono es obligatorio.")
+            .Matches(@"^[^a-zA-Z]*$").WithMessage("El número de teléfono no debe contener letras.")
+            .Matches(@"^\(\d{3}\) \d{3}-\d{4}$")
+            .WithMessage("El formato del teléfono debe ser exactamente: (123) 456-7890");
 
         RuleFor(x => x.Camper.Name)
             .NotEmpty().WithMessage("El Nombre de no puede estar vacio")
@@ -27,7 +27,7 @@ public class CreateCamperCommandValidator : AbstractValidator<CreateCamperComman
             .NotNull().WithMessage("El apellido no puede estar vacio");
         
         RuleFor(x => x.Camper.Gender)
-            .IsInEnum()
+            .GreaterThan(0)
             .WithMessage("El genero no puede estar vacio");
         
         RuleFor(x => x.Camper.Code)

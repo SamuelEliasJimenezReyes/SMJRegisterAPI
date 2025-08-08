@@ -23,6 +23,10 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
         builder.Property(x=>x.CurrentCapacity)
             .HasColumnName("CapacidadActual");
         
+        builder.Property(x => x.Gender)
+            .HasConversion<string>()
+            .HasColumnName("Genero");
+        
         builder.HasMany(x => x.Campers)
             .WithOne(x => x.Room)
             .HasForeignKey(x => x.RoomId)

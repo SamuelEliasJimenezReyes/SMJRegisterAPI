@@ -12,7 +12,7 @@ public class CreateRoomCommandHandler(IRoomRepository repository, IMapper mapper
     {
         var entity = mapper.Map<Entities.Room>(request.Room);
         await repository.AddAsync(entity);
-        var Dto = mapper.Map<CreateRoomDto>(entity);
-        return Dto;
+        var dto = mapper.Map<CreateRoomDto>(entity);
+        return dto;
     }
 }

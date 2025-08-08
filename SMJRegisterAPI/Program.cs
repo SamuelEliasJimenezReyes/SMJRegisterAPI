@@ -10,6 +10,7 @@ using SMJRegisterAPI.Features.Camper.Repository;
 using SMJRegisterAPI.Features.Church.Repository;
 using SMJRegisterAPI.Features.Common;
 using SMJRegisterAPI.Features.GrantedCode.Repository;
+using SMJRegisterAPI.Features.Payment.Repository;
 using SMJRegisterAPI.Features.Room.Repository;
 using SMJRegisterAPI.Middlewares;
 using SMJRegisterAPI.Services.CodeGenerator;
@@ -35,6 +36,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt=>
     builder.Services.AddScoped(typeof(IGenerateCodeService),typeof(GenerateCodeService));
     builder.Services.AddScoped(typeof(IGrantedCodeRepository),typeof(GrantedCodeRepository));
     builder.Services.AddScoped(typeof(IBankInformationRepository),typeof(BankInformationRepository));
+    builder.Services.AddScoped(typeof(IPaymentRepository),typeof(PaymentRepository));
     builder.Services.AddScoped(typeof(IFileStorage),typeof(FileStorage));
     builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 

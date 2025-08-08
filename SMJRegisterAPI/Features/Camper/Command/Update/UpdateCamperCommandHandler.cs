@@ -25,11 +25,10 @@ public class UpdateCamperCommandHandler(
         camper.IsPaid = request.Camper.IsPaid;
         camper.Gender = (Entities.Enums.Gender)request.Camper.Gender;
         camper.Condition = (Entities.Enums.Condition)request.Camper.Condition;
-        camper.PayType = (Entities.Enums.PayType)request.Camper.PayType;
+        camper.PayWay = (Entities.Enums.PayWay)request.Camper.PayType;
         camper.ShirtSize = (Entities.Enums.ShirtSize)request.Camper.ShirtSize;
         camper.ChurchId = request.Camper.ChurchId;
-        if(request.Camper.RoomId == 0)
-            camper.RoomId = null;   
+        camper.RoomId = request.Camper.RoomId == 0 ? null : request.Camper.RoomId;
 
         camper.UpdatedAt = DateTime.Now;
 

@@ -18,7 +18,7 @@ public class FileStorage (IWebHostEnvironment env, IHttpContextAccessor httpCont
 
         var uploadTasks = files.Select(async file =>
         {
-            var originalFileName = Path.GetFileNameWithoutExtension(file.FileName.ToLower().Trim()).Replace("_", " ");
+            var originalFileName = Path.GetFileNameWithoutExtension(file.FileName.ToLower().Trim()).Replace(" ", "-");
             var extension = Path.GetExtension(file.FileName);
             var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             var fileName = $"{originalFileName}_{timestamp}{extension}";

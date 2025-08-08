@@ -30,11 +30,11 @@ public class CamperProfile : Profile
         CreateMap<Entities.Camper, UpdateCamperDTO>();
 
         CreateMap<UpdateCamperDTO, Entities.Camper>()
-            .ForMember(dest => dest.DocumentNumber, opt => opt.Ignore())
+            .ForMember(dest => dest.PhoneNumber, opt => opt.Ignore())
             .ForMember(dest => dest.DocumentsURL, opt => opt.Ignore())
             .ForMember(dest => dest.TotalAmount, opt => opt.Ignore())
             .ForMember(dest => dest.GrantedCodeId, opt => opt.Ignore())
-            .ForMember(dest => dest.ArrivedTime, opt => opt.Ignore())
+            .ForMember(dest => dest.ArrivedTimeSlot, opt => opt.Ignore())
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
     }
     

@@ -15,5 +15,9 @@ public enum Conference
     
     [Description("Central")] 
     [Display(Name = "Central")]
-    Central
+    Central,
+    
+    [Description("General")] 
+    [Display(Name = "General")]
+    General
 }
