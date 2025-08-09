@@ -26,7 +26,7 @@ public class CreatePaymentCommandHandler(
         if (request.Payment.Evidence is not null)
         {
             var folderName = $"Camper-{camper.ID}-{camper.Name}-{camper.LastName}";
-            var url = await fileStorage.Store(folderName,"Payments",request.Payment.Evidence);
+            var url = await fileStorage.Store("camper-documents",folderName,request.Payment.Evidence);
             payment.EvidenceURL = url;
         }
         await repository.AddAsync(payment);

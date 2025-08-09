@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SMJRegisterAPI.Entities;
+using SMJRegisterAPI.Entities.Enums;
 
 namespace SMJRegisterAPI.Database.Configurations;
 
-public class BanksInformationConfiguration : IEntityTypeConfiguration<BanksInformation>
+public class BanksInformationConfiguration(Conference tenantConference) : IEntityTypeConfiguration<BanksInformation>
 {
     public void Configure(EntityTypeBuilder<BanksInformation> builder)
     {
@@ -12,7 +13,8 @@ public class BanksInformationConfiguration : IEntityTypeConfiguration<BanksInfor
         
         builder.HasKey(x => x.ID);
 
-        builder.HasQueryFilter(x => !x.IsDeleted);
+        builder.HasQueryFilter(x => !x.IsDeleted && (
+            tenantConference== Conference.General || x.Conference == tenantConference));
         
         builder.Property(x => x.Cedula)
             .HasMaxLength(100);

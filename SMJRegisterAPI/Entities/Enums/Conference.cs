@@ -19,5 +19,5 @@ public enum Conference
     
     [Description("General")] 
     [Display(Name = "General")]
-    General
+    General //SUPERADMIN
 }

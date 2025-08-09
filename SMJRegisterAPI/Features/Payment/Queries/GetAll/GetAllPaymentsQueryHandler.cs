@@ -12,14 +12,6 @@ public class GetAllPaymentsQueryHandler(
     public async Task<IList<PaymentDto>> Handle(GetAllPaymentsQuery request, CancellationToken cancellationToken)
     {
         var list = await repository.GetAllAsync();
-        var result = new List<PaymentDto>();
-        foreach (var paymentDto in list)
-        { 
-            await repository.LoadReferenceAsync(paymentDto, payment => payment.Camper);
-            await repository.LoadReferenceAsync(paymentDto, payment => payment.BanksInformation);
-            var dto = mapper.Map<PaymentDto>(paymentDto);
-            result.Add(dto);
-        }
-        return result;
+        return mapper.Map<IList<PaymentDto>>(list);
     }
 }

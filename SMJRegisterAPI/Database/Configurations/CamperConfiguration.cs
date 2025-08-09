@@ -1,16 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SMJRegisterAPI.Entities;
+using SMJRegisterAPI.Entities.Enums;
 
 namespace SMJRegisterAPI.Database.Configurations;
 
-public class CamperConfiguration : IEntityTypeConfiguration<Camper>
+public class CamperConfiguration(Conference tenantConference) : IEntityTypeConfiguration<Camper>
 {
     public void Configure(EntityTypeBuilder<Camper> builder)
     {
         builder.ToTable("Campistas");
         
-        builder.HasQueryFilter(x => !x.IsDeleted);
+        builder.HasQueryFilter(x => !x.IsDeleted &&  (
+            tenantConference== Conference.General || x.Church.Conference == tenantConference));
         
         builder.HasKey(x => x.ID);
         
