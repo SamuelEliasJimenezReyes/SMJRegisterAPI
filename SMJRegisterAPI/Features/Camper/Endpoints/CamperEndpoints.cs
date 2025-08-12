@@ -17,15 +17,15 @@ public class CamperEndpoints() : CarterModule("/camper")
 {
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/", GetAllCampers);
-        app.MapGet("/{id:int}", GetCamperById);
+        app.MapGet("/", GetAllCampers).RequireAuthorization();
+        app.MapGet("/{id:int}", GetCamperById).RequireAuthorization();
         app.MapPost("/", CreateCamper)
             .Accepts<CreateCamperDTO>("multipart/form-data")
             .DisableAntiforgery();
-        app.MapGet("/get-by-condition{condition:int}", GetAllByCondition);
-        app.MapGet("/get-by-church/{churchId:int}", GetAllByChurchId);
-        app.MapGet("/get-by-conference/{conference:int}", GetAllByConference);
-        app.MapPut("/{id:int}", UpdateCamper);
+        app.MapGet("/get-by-condition{condition:int}", GetAllByCondition).RequireAuthorization();
+        app.MapGet("/get-by-church/{churchId:int}", GetAllByChurchId).RequireAuthorization();
+        app.MapGet("/get-by-conference/{conference:int}", GetAllByConference).RequireAuthorization();
+        app.MapPut("/{id:int}", UpdateCamper).RequireAuthorization();
     }
 
     

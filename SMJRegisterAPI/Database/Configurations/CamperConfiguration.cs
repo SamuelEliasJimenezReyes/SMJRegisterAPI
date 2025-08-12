@@ -11,8 +11,7 @@ public class CamperConfiguration(Conference tenantConference) : IEntityTypeConfi
     {
         builder.ToTable("Campistas");
         
-        builder.HasQueryFilter(x => !x.IsDeleted &&  (
-            tenantConference== Conference.General || x.Church.Conference == tenantConference));
+    
         
         builder.HasKey(x => x.ID);
         

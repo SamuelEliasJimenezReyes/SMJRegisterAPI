@@ -15,9 +15,7 @@ public class ChurchConfiguration(Conference tenantConference) : IEntityTypeConfi
         builder.ToTable("Iglesias");
         
         builder.HasKey(x => x.ID);
-        
-        builder.HasQueryFilter(x => !x.IsDeleted && (
-            tenantConference== Conference.General || x.Conference == tenantConference));
+       
         
         builder.Property(x => x.Name)
             .HasMaxLength(100)

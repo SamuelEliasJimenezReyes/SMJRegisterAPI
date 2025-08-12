@@ -13,9 +13,7 @@ public class BanksInformationConfiguration(Conference tenantConference) : IEntit
         
         builder.HasKey(x => x.ID);
 
-        builder.HasQueryFilter(x => !x.IsDeleted && (
-            tenantConference== Conference.General || x.Conference == tenantConference));
-        
+      
         builder.Property(x => x.Cedula)
             .HasMaxLength(100);
         

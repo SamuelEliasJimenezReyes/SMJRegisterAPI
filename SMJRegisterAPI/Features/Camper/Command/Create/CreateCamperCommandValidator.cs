@@ -14,9 +14,7 @@ public class CreateCamperCommandValidator : AbstractValidator<CreateCamperComman
 
         RuleFor(x => x.Camper.PhoneNumber)
             .NotEmpty().WithMessage("El número de teléfono es obligatorio.")
-            .Matches(@"^[^a-zA-Z]*$").WithMessage("El número de teléfono no debe contener letras.")
-            .Matches(@"^\(\d{3}\) \d{3}-\d{4}$")
-            .WithMessage("El formato del teléfono debe ser exactamente: (123) 456-7890");
+            .Matches(@"^[^a-zA-Z]*$").WithMessage("El número de teléfono no debe contener letras.");
 
         RuleFor(x => x.Camper.Name)
             .NotEmpty().WithMessage("El Nombre de no puede estar vacio")

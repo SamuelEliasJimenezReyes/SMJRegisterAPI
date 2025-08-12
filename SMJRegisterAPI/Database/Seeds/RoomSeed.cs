@@ -21,6 +21,7 @@ public class RoomSeed
         var id = 1;
         var faker = new Faker<Room>("es")
             .RuleFor(x => x.ID, f => id++)
+            .RuleFor(x => x.Gender, f => f.PickRandom<Entities.Enums.Gender>())
             .RuleFor(p=>p.MaxCapacity , f=>f.Random.Int(2,51))
             .RuleFor(p=>p.Name, f=>f.PickRandom(roomsNames));
         

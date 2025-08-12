@@ -14,7 +14,7 @@ public class ChurchEndpoints() : CarterModule("/church")
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/",GetAll);
-        app.MapGet("/{id:int}",GetById);
+        app.MapGet("/{id:int}",GetById).RequireAuthorization();
         app.MapGet("/get-by-conference/{conference:int}",GetAllByConference);
     }
     

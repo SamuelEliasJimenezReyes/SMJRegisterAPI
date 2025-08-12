@@ -17,7 +17,7 @@ public class CreateCamperDTO
     public int PayType { get; set; }
     public int ShirtSize { get; set; }
     public int ArrivedTimeSlot { get; set; }
-    public DateTime ArrivedTime { get; set; }
+
 
     //relationship
     public int ChurchId { get; set; }

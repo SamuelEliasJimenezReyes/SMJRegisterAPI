@@ -12,6 +12,7 @@ public class PaymentEndpoints() : CarterModule("/payments")
 {
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
+        this.RequireAuthorization();
         app.MapGet("/", GetAll);
         app.MapPost("/", Create)
             .Accepts<CreatePaymentDto>("multipart/form-data")

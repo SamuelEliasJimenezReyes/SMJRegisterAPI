@@ -8,6 +8,8 @@ public class RoomDto
     public string Name { get; set; }
     public int MaxCapacity { get; set; }
     public int CurrentCapacity { get; set; }
+    public string Gender { get; set; }
+
     
     public ICollection<CamperSimpleDto> Campers { get; set; }
 }

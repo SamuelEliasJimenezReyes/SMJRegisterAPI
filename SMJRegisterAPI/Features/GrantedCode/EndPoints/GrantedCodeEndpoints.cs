@@ -11,8 +11,8 @@ public class GrantedCodeEndpoints() : CarterModule("/grantedCode")
 {
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/",GetAll);
-        app.MapPost("/", Create);
+        app.MapGet("/",GetAll).RequireAuthorization();
+        app.MapPost("/", Create).RequireAuthorization();
     }
     private async Task<Results<Ok<IList<GrantedCodeDTO>>, NotFound>> GetAll(ISender sender)
     {

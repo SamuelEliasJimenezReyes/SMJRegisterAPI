@@ -15,10 +15,12 @@ public class RoomEndpoints() : CarterModule("/room")
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/", GetAll);
-        app.MapGet("/{id:int}", GetById);
-        app.MapPost("/", Create);
-        app.MapPost("/automatic-sorter-by-churchId/{ChurchId:int}", AutomaticSorterByChurchId);
-        app.MapPost("/automatic-sorter-by-camperId/{CamperId:int}", AutomaticSorterByCamperId);
+        app.MapGet("/{id:int}", GetById).RequireAuthorization();
+        app.MapPost("/", Create).RequireAuthorization();
+        app.MapPost("/automatic-sorter-by-churchId/{ChurchId:int}", AutomaticSorterByChurchId)
+            .RequireAuthorization();
+        app.MapPost("/automatic-sorter-by-camperId/{CamperId:int}", AutomaticSorterByCamperId)
+            .RequireAuthorization();
     }
     
     private async Task<Results<Ok<IList<RoomSimpleDto>>, NotFound>> GetAll(ISender sender)

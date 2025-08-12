@@ -20,7 +20,6 @@ public class CamperDTO
     public string ArrivedTimeSlot { get; set; }
 
     public List<string>? DocumentsURL { get; set; }
-    public string ArrivedTimeHumanized { get; set; }
 
     
     public ChurchSimpleDTO Church { get; set; }
