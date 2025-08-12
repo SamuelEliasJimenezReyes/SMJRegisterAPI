@@ -7,7 +7,7 @@ public enum Condition
 {
     [Description("Campista")] 
     [Display(Name = "Campista")]
-    RegularCamper=1,
+    Campista=1,
     
     [Description("Staff")] 
     [Display(Name = "Staff")]
@@ -15,9 +15,9 @@ public enum Condition
     
     [Description("Directivo")] 
     [Display(Name = "Directivo")]
-    Executive,
+    Directivo,
     
     [Description("Danzarina")] 
     [Display(Name = "Danzarina")]
-    Dancer
+    Danzarina
 }

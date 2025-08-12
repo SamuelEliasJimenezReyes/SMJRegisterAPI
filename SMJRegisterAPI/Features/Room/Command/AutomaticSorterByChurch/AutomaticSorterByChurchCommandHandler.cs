@@ -13,11 +13,11 @@ public class AutomaticSorterByChurchCommandHandler(IRoomRepository repository, I
         var campers = await camperRepository.GetAllByChurchIDAsync(request.ChurchId);
         var unassigned = campers.Where(x => x.RoomId is null or 0).ToList();
 
-        var femaleRooms = await repository.GetRoomsByGender(Gender.Female);
-        var maleRooms = await repository.GetRoomsByGender(Gender.Male);
+        var femaleRooms = await repository.GetRoomsByGender(Gender.Mujer);
+        var maleRooms = await repository.GetRoomsByGender(Gender.Hombre);
         
-        var females = unassigned.Where(c => c.Gender == Gender.Female).ToList();
-        var males = unassigned.Where(c => c.Gender == Gender.Male).ToList();
+        var females = unassigned.Where(c => c.Gender == Gender.Mujer).ToList();
+        var males = unassigned.Where(c => c.Gender == Gender.Hombre).ToList();
         
         await AssignCampersToRooms(females, femaleRooms, camperRepository);
         await AssignCampersToRooms(males, maleRooms, camperRepository);

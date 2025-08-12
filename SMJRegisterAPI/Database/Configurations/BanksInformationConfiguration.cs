@@ -12,10 +12,6 @@ public class BanksInformationConfiguration(Conference tenantConference) : IEntit
         builder.ToTable("Cuentas");
         
         builder.HasKey(x => x.ID);
-
-      
-        builder.Property(x => x.Cedula)
-            .HasMaxLength(100);
         
         builder.Property(x => x.AccountNumber)
             .HasMaxLength(100)

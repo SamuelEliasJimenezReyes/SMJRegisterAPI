@@ -9,16 +9,53 @@ public class BankInformationSeed
 {
     public static void Seed(ModelBuilder modelBuilder)
     {
-        var id = 1;
-        var faker = new Faker<BanksInformation>("es")
-            .RuleFor(p => p.ID, f => id++)
-            .RuleFor(x => x.Conference, f => f.PickRandom<Conference>())
-            .RuleFor(x => x.BankName, f => f.PickRandom<Banks>())
-            .RuleFor(x => x.Cedula, f => f.Random.String2(11, "0123456789"))
-            .RuleFor(x => x.AccountNumber, f =>f.Random.String2(11, "0123456789"));
-        
-        foreach (var entity in faker.Generate(20))
-            modelBuilder.Entity<BanksInformation>().HasData(entity); 
+        var banksInfo = new List<BanksInformation>
+        {
+            new BanksInformation
+            {
+                ID = 1,
+                BankName = Banks.Popular,
+                AccountNumber = "785889601",
+                Conference = Conference.Sureste
+            },
+            new BanksInformation
+            {
+                ID = 2,
+                BankName = Banks.BanReservas,
+                AccountNumber = "9601266314",
+                Conference = Conference.Sureste
+            },
+            new BanksInformation
+            {
+                ID = 3,
+                BankName = Banks.BanReservas,
+                AccountNumber = "9603689644",
+                Conference = Conference.Central
+            },
+            new BanksInformation
+            {
+                ID = 4,
+                BankName = Banks.Popular,
+                AccountNumber = "833350150",
+                Conference = Conference.Central
+            },
+            new BanksInformation
+            {
+                ID = 5,
+                BankName = Banks.Popular,
+                AccountNumber = "790839831",
+                Conference = Conference.Noroeste
+            },
+            new BanksInformation
+            {
+                ID = 6,
+                BankName = Banks.Popular,
+                AccountNumber = "9605995258",
+                Conference = Conference.Noroeste
+            }
+        };
+
+        modelBuilder.Entity<BanksInformation>().HasData(banksInfo);
     }
 
 }

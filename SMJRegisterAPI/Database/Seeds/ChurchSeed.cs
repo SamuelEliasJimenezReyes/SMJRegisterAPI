@@ -101,7 +101,7 @@ namespace SMJRegisterAPI.Database.Seeds
             {
                 ID = id++,
                 Name = name,
-                Conference = Conference.Southeast
+                Conference = Conference.Sureste
             }));
             #endregion
             
@@ -177,7 +177,7 @@ namespace SMJRegisterAPI.Database.Seeds
             {
                 ID = id++,
                 Name = name,
-                Conference = Conference.Northeast
+                Conference = Conference.Noroeste
             }));
             #endregion
 

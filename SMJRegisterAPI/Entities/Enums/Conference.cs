@@ -7,11 +7,11 @@ public enum Conference
 {
     [Description("Noreste")] 
     [Display(Name = "Noreste")]
-    Northeast=1,
+    Noroeste=1,
     
     [Description("Sureste")] 
     [Display(Name = "Sureste")]
-    Southeast,
+    Sureste,
     
     [Description("Central")] 
     [Display(Name = "Central")]

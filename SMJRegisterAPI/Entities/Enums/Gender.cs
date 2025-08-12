@@ -7,9 +7,9 @@ public enum Gender
 {
     [Description("Hombre")] 
     [Display(Name = "Hombre")]
-    Male = 1 ,
+    Hombre = 1 ,
     
     [Description("Mujer")] 
     [Display(Name = "Mujer")]
-    Female
+    Mujer
 }
