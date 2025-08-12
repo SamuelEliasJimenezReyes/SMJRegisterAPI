@@ -1,0 +1,10 @@
+﻿services:
+  smjregisterapi:
+    build:
+      context: .
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sql-server-host;Database=smjdb;User=sa;Password=tu_contraseña_sqlserver;
+    restart: unless-stopped
