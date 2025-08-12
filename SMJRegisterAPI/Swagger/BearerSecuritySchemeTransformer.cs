@@ -1,34 +1,50 @@
-﻿using Microsoft.AspNetCore.OpenApi;
+﻿using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication;
 
 namespace SMJRegisterAPI.Swagger;
 
-internal sealed class BearerSecuritySchemeTransformer(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider authenticationSchemeProvider) : IOpenApiDocumentTransformer
+public class BearerSecuritySchemeTransformer : IDocumentFilter
 {
-    public async Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
-    {
-        var authenticationSchemes = await authenticationSchemeProvider.GetAllSchemesAsync();
-        if (authenticationSchemes.Any(authScheme => authScheme.Name == "Bearer"))
-        {
-            var requirements = new Dictionary<string, OpenApiSecurityScheme>
-            {
-                ["Bearer"] = new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "bearer", 
-                    In = ParameterLocation.Header,
-                    BearerFormat = "Json Web Token"
-                }
-            };
-            document.Components ??= new OpenApiComponents();
-            document.Components.SecuritySchemes = requirements;
+    private readonly IAuthenticationSchemeProvider _schemeProvider;
 
-            foreach (var operation in document.Paths.Values.SelectMany(path => path.Operations))
+    public BearerSecuritySchemeTransformer(IAuthenticationSchemeProvider schemeProvider)
+    {
+        _schemeProvider = schemeProvider;
+    }
+
+    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+    {
+        var scheme = _schemeProvider.GetSchemeAsync("Bearer").Result;
+        if (scheme != null)
+        {
+            swaggerDoc.Components.SecuritySchemes.Add("Bearer", new OpenApiSecurityScheme
             {
-                operation.Value.Security.Add(new OpenApiSecurityRequirement
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Description = "JWT Authorization header using the Bearer scheme."
+            });
+
+            foreach (var path in swaggerDoc.Paths.Values)
+            {
+                foreach (var operation in path.Operations.Values)
                 {
-                    [new OpenApiSecurityScheme { Reference = new OpenApiReference { Id = "Bearer", Type = ReferenceType.SecurityScheme } }] = Array.Empty<string>()
-                });
+                    operation.Security.Add(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            Array.Empty<string>()
+                        }
+                    });
+                }
             }
         }
     }
