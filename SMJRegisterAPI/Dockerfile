@@ -1,29 +1,33 @@
 ﻿# ----------------------------
 # Etapa 1: Compilación
 # ----------------------------
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /src
 
-# Copiamos todo el código
+# Copiamos primero los archivos de proyecto para aprovechar el caching de Docker
+COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+COPY *.sln .
+
+# Restauramos dependencias
+RUN dotnet restore
+
+# Copiamos el resto del código
 COPY . .
 
-# Restauramos dependencias (forzamos para evitar cache vieja)
-RUN dotnet restore --force
-
-# Publicamos en modo Release sin restaurar de nuevo
-WORKDIR /src/SMJRegisterAPI
-RUN dotnet publish -c Release -o /app/out --no-restore
+# Publicamos en modo Release
+WORKDIR "/src/SMJRegisterAPI"
+RUN dotnet publish -c Release -o /app/publish
 
 # ----------------------------
 # Etapa 2: Runtime (ejecución)
 # ----------------------------
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 
 # Copiamos solo lo necesario del build
-COPY --from=build-env /app/out .
+COPY --from=build-env /app/publish .
 
-# Exponemos los puertos (80 para HTTP y 443 para HTTPS si lo usas)
+# Exponemos los puertos
 EXPOSE 80
 EXPOSE 443
 
