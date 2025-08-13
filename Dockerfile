@@ -10,10 +10,10 @@ WORKDIR /src
 COPY ["SMJRegisterAPI.sln", "./"]
 
 # 2. Crear la estructura de directorios necesaria
-RUN mkdir -p SMJRegisterAPI/SMJRegisterAPI
+RUN mkdir -p SMJRegisterAPI
 
 # 3. Copiar explícitamente el archivo .csproj
-COPY ["SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/SMJRegisterAPI/"]
+COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/SMJRegisterAPI/"]
 
 # 4. Restaurar dependencias
 RUN dotnet restore "SMJRegisterAPI.sln"
