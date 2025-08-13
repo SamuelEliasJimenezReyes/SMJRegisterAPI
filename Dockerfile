@@ -1,6 +1,4 @@
-﻿# Use this version if you move the Dockerfile to the root directory (next to SMJRegisterAPI.sln)
-
-# Etapa 1: Build
+﻿# Etapa 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
