@@ -7,15 +7,8 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 COPY *.sln .
-COPY . .
-RUN find . -name "*.csproj" -exec sh -c '\
-    dir=$(dirname "{}"); \
-    mkdir -p "/src/$dir"; \
-    cp "{}" "/src/$dir"; \
-' \;
+COPY SMJRegisterAPI/*.csproj ./SMJRegisterAPI/
 
-# Luego proceder con el restore
-WORKDIR /src
 RUN dotnet restore "SMJRegisterAPI.sln"
 
 COPY . .
