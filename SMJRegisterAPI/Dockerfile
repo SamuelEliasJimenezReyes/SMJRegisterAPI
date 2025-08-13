@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copiar archivos de proyecto y restaurar dependencias (mejor para caching)
-COPY SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/
+COPY SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/SMJRegisterAPI/
 COPY SMJRegisterAPI.sln ./
 RUN dotnet restore
 
