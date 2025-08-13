@@ -1,25 +1,28 @@
-﻿# Build stage
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+﻿# Add this at the very top of your Dockerfile to ensure clean builds
+# syntax=docker/dockerfile:1.4
+
+# Build stage - with retry for network issues
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# 1. Copy solution file
-COPY ["SMJRegisterAPI.sln", "."]
+# Copy solution file
+COPY ["SMJRegisterAPI.sln", "./"]
 
-# 2. Copy project file (from SMJRegisterAPI/SMJRegisterAPI.csproj)
+# Copy project file
 COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
 
-# 3. Restore dependencies
-RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj"
+# Restore with retry
+RUN --network=host dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj" --disable-parallel
 
-# 4. Copy remaining source code
+# Copy remaining files
 COPY ["SMJRegisterAPI/", "SMJRegisterAPI/"]
 
-# 5. Build and publish
+# Build and publish
 WORKDIR "/src/SMJRegisterAPI"
 RUN dotnet publish -c Release -o /app/publish
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "SMJRegisterAPI.dll"]
