@@ -1,37 +1,28 @@
-﻿# Base para runtime
+﻿# This phase is used when running from VS in fast mode (default for debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-# Build
+# This phase is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["SMJRegisterAPI.sln", "."]
+COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj"
+COPY . .
+WORKDIR "/src/SMJRegisterAPI"
+RUN dotnet build "SMJRegisterAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Copiar solución y proyecto
-COPY SMJRegisterAPI.sln ./
-COPY SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj ./SMJRegisterAPI/
-
-# Restaurar dependencias
-RUN dotnet restore ./SMJRegisterAPI/SMJRegisterAPI.csproj
-
-# Copiar todo el código
-COPY SMJRegisterAPI/SMJRegisterAPI ./SMJRegisterAPI/
-
-# Build
-RUN dotnet build ./SMJRegisterAPI/SMJRegisterAPI.csproj -c $BUILD_CONFIGURATION -o /app/build
-
-# Publicar
+# This phase is used to publish the service project that will be copied to the final phase
 FROM build AS publish
-RUN dotnet publish ./SMJRegisterAPI/SMJRegisterAPI.csproj -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "SMJRegisterAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Final
+# This phase is used in production or when running from VS in normal mode
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-
-ENV ASPNETCORE_URLS=http://+:$PORT \
-    DOTNET_RUNNING_IN_CONTAINER=true
-
 ENTRYPOINT ["dotnet", "SMJRegisterAPI.dll"]
