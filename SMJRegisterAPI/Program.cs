@@ -30,7 +30,7 @@ var builder = WebApplication.CreateBuilder(args);
 #region DbContext Configurations
 
 builder.Services.AddDbContext<ApplicationDbContext>(opt=>
-    opt.UseSqlServer(
+    opt.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
