@@ -8,12 +8,9 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # Copiamos la solución
-COPY ["SMJRegisterAPI.sln", "."]
+COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj"
 
-# Copiamos el csproj desde su ruta real
-COPY ["SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/SMJRegisterAPI/"]
-
-RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj"
 
 # Copiamos todo el código
 COPY . .
