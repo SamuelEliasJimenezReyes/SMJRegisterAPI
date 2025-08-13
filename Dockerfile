@@ -4,7 +4,7 @@ WORKDIR /src
 
 # 1. Copiar archivos esenciales primero (para cache de Docker)
 COPY SMJRegisterAPI.sln .
-COPY SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/
+COPY SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/
 
 # 2. Restaurar dependencias
 RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj"
