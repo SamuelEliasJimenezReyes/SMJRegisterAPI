@@ -6,23 +6,13 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copiar solución
-COPY ["SMJRegisterAPI.sln", "./"]
+COPY *.sln .
+COPY SMJRegisterAPI/SMJRegisterAPI/*.csproj ./SMJRegisterAPI/SMJRegisterAPI/
 
-# Copiar recursivamente todos los .csproj manteniendo estructura
-COPY . .
-RUN find . -name "*.csproj" -exec sh -c '\
-    dir="/src/$(dirname "{}")"; \
-    mkdir -p "$dir"; \
-    cp "{}" "$dir"; \
-' \;
-
-# Restaurar
 RUN dotnet restore "SMJRegisterAPI.sln"
 
-
 COPY . .
-WORKDIR "/SMJRegisterAPI/SMJRegisterAPI"
+WORKDIR "/src/SMJRegisterAPI/SMJRegisterAPI"
 RUN dotnet build -c Release -o /app/build
 
 FROM build AS publish
