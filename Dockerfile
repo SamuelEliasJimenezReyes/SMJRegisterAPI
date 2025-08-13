@@ -7,11 +7,11 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 COPY *.sln .
-COPY /.csproj ./
-RUN for file in $(find . -name "*.csproj"); do \
-    dir=$(basename "$file" .csproj); \
-    mkdir -p "$dir"; \
-    mv "$file" "$dir/"; \
+# Reemplaza las líneas de COPY con:
+COPY ["**/*.csproj", "./"]
+RUN for file in $(ls */*.csproj); do \
+    mkdir -p $(dirname "../src/${file}"); \
+    mv "$file" "../src/${file}"; \
 done
 
 RUN dotnet restore
