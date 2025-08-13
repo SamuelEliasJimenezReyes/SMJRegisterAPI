@@ -7,8 +7,8 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Critical Change - Match your exact folder structure
-COPY ["SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI/"]
-RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj"
+COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj"
 
 COPY . .
 WORKDIR "/src/SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI"
