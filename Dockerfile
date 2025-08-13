@@ -5,11 +5,11 @@ WORKDIR /src
 # Copiar todo el código fuente
 COPY . .
 
-# Restaurar dependencias directamente desde el proyecto
-RUN dotnet restore SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj
+# Encontrar y restaurar el proyecto automáticamente
+RUN find . -name "*.csproj" -type f | head -1 | xargs dotnet restore
 
-# Publicar en modo Release
-RUN dotnet publish SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj -c Release -o /app/publish
+# Publicar en modo Release - buscar el archivo csproj automáticamente
+RUN find . -name "SMJRegisterAPI.csproj" -type f | head -1 | xargs -I {} dotnet publish {} -c Release -o /app/publish
 
 # Etapa 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
