@@ -5,17 +5,20 @@ WORKDIR /src
 # 1. Copy solution file
 COPY ["SMJRegisterAPI.sln", "."]
 
-# 2. Copy project file (note the path matches your structure exactly)
-COPY ["SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+# 2. Create target directory structure
+RUN mkdir -p SMJRegisterAPI/SMJRegisterAPI
 
-# 3. Restore dependencies
-RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj"
+# 3. Copy project file
+COPY ["./SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "./SMJRegisterAPI/SMJRegisterAPI/"]
 
-# 4. Copy remaining source code
-COPY ["SMJRegisterAPI/SMJRegisterAPI", "SMJRegisterAPI"]
+# 4. Restore dependencies
+RUN dotnet restore "./SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj"
 
-# 5. Build and publish
-WORKDIR "/src/SMJRegisterAPI"
+# 5. Copy remaining source code
+COPY ["./SMJRegisterAPI/SMJRegisterAPI", "./SMJRegisterAPI/SMJRegisterAPI"]
+
+# 6. Build and publish
+WORKDIR "/src/SMJRegisterAPI/SMJRegisterAPI"
 RUN dotnet publish -c Release -o /app/publish
 
 # Runtime stage
