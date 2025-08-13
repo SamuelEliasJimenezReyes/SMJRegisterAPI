@@ -6,12 +6,12 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Corrected path - notice the extra SMJRegisterAPI level
-COPY ["SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/SMJRegisterAPI/"]
-RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj"
+# Critical Change - Match your exact folder structure
+COPY ["SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI/"]
+RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj"
 
 COPY . .
-WORKDIR "/src/SMJRegisterAPI/SMJRegisterAPI"
+WORKDIR "/src/SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI"
 RUN dotnet build "SMJRegisterAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
