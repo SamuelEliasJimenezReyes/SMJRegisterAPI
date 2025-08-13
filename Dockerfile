@@ -4,7 +4,7 @@ WORKDIR /src
 # Copia el archivo de solución
 COPY ["SMJRegisterAPI.sln", "."]
 
-# Copia el proyecto (nota: el proyecto está en un subdirectorio)
+# Copia el archivo .csproj (ajustado a tu estructura)
 COPY ["SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/SMJRegisterAPI/"]
 
 # Restaura dependencias
@@ -13,7 +13,7 @@ RUN dotnet restore "SMJRegisterAPI.sln"
 # Copia todo
 COPY . .
 
-# Publica
+# Publica el proyecto (ruta corregida)
 RUN dotnet publish "SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj" -c Release -o /app/publish
 
 # Runtime final
