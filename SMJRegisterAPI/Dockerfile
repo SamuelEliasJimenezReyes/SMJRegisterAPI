@@ -1,19 +1,20 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copiar solo el csproj para optimizar cache
-COPY SMJRegisterAPI.csproj ./
+# Copiar la solución y el csproj
+COPY ["SMJRegisterAPI.sln", "."]
+COPY ["SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
 
-RUN dotnet restore SMJRegisterAPI.csproj
+# Restaurar paquetes
+RUN dotnet restore "SMJRegisterAPI.sln"
 
-# Copiar todo el código fuente
+# Copiar todo
 COPY . .
 
-RUN dotnet publish SMJRegisterAPI.csproj -c Release -o /app/publish
+# Publicar
+RUN dotnet publish "SMJRegisterAPI/SMJRegisterAPI.csproj" -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
-
 COPY --from=build /app/publish .
-
 ENTRYPOINT ["dotnet", "SMJRegisterAPI.dll"]
