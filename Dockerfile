@@ -1,13 +1,24 @@
-﻿# Add retry logic for dotnet restore
+﻿# Use multi-stage build for smaller final image
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
+
+# 1. Copy solution file
 COPY ["SMJRegisterAPI.sln", "."]
+
+# 2. Copy project file
 COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
-RUN for i in {1..3}; do dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj" --disable-parallel && break || sleep 5; done
+
+# 3. Restore dependencies (without --network=host)
+RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj"
+
+# 4. Copy remaining source code
 COPY ["SMJRegisterAPI/", "SMJRegisterAPI/"]
+
+# 5. Build and publish
 WORKDIR "/src/SMJRegisterAPI"
 RUN dotnet publish -c Release -o /app/publish
 
+# Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 COPY --from=build /app/publish .
