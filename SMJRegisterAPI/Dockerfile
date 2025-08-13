@@ -2,18 +2,17 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copiar la solución y el archivo de proyecto (.csproj)
-COPY SMJRegisterAPI.sln ./
-COPY SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/
+# Copiar el archivo de proyecto (.csproj) desde el directorio actual
+COPY *.csproj ./
 
 # Restaurar dependencias
-RUN dotnet restore SMJRegisterAPI/SMJRegisterAPI.csproj
+RUN dotnet restore
 
 # Copiar todo el código fuente
 COPY . .
 
 # Publicar en modo Release
-RUN dotnet publish SMJRegisterAPI/SMJRegisterAPI.csproj -c Release -o /app/publish
+RUN dotnet publish -c Release -o /app/publish
 
 # Etapa 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
