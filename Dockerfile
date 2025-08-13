@@ -2,18 +2,18 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# 1. Copiar archivos esenciales primero (para aprovechar caché de Docker)
+# 1. Copiar archivos esenciales primero (para cache de Docker)
 COPY SMJRegisterAPI.sln .
-COPY ./SMJRegisterAPI/SMJRegisterAPI.csproj ./SMJRegisterAPI/
+COPY SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/
 
 # 2. Restaurar dependencias
-RUN dotnet restore SMJRegisterAPI.sln
+RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj"
 
 # 3. Copiar todo el código fuente
-COPY ./SMJRegisterAPI ./SMJRegisterAPI
+COPY . .
 
 # 4. Publicar la aplicación
-RUN dotnet publish ./SMJRegisterAPI/SMJRegisterAPI.csproj -c Release -o /app/publish
+RUN dotnet publish "SMJRegisterAPI/SMJRegisterAPI.csproj" -c Release -o /app/publish
 
 # Fase de ejecución
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final

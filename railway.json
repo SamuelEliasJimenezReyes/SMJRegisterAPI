@@ -5,7 +5,7 @@
     "context": ".",
     "watchPaths": [
       "SMJRegisterAPI/**",
-      "SMJRegisterAPI.sln",
+      "*.sln",
       "Dockerfile"
     ]
   }
