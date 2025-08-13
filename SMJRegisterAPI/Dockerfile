@@ -2,12 +2,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copiar la solución y el archivo de proyecto
+# Copiar la solución y el proyecto
 COPY SMJRegisterAPI.sln ./
 COPY SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/
 
 # Restaurar dependencias
-RUN dotnet restore
+RUN dotnet restore SMJRegisterAPI.sln
 
 # Copiar todo el código
 COPY . .
@@ -20,11 +20,10 @@ RUN dotnet publish -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 
-# Copiar la publicación desde la etapa de build
+# Copiar publicación desde el build
 COPY --from=build /app/publish .
 
 # Exponer el puerto
 EXPOSE 8080
 
-# Iniciar la aplicación
 ENTRYPOINT ["dotnet", "SMJRegisterAPI.dll"]
