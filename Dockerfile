@@ -9,22 +9,22 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Copiar solución y proyecto
+# Copiar solución y proyecto (rutas corregidas)
 COPY SMJRegisterAPI.sln ./
-COPY SMJRegisterAPI/SMJRegisterAPI.csproj ./SMJRegisterAPI/
+COPY SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj ./SMJRegisterAPI/
 
 # Restaurar dependencias
-RUN dotnet restore ./SMJRegisterAPI/SMJRegisterAPI.csproj
+RUN dotnet restore ./SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj
 
 # Copiar todo el código
 COPY . .
 
 # Build
-RUN dotnet build ./SMJRegisterAPI/SMJRegisterAPI.csproj -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build ./SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj -c $BUILD_CONFIGURATION -o /app/build
 
 # Publicar
 FROM build AS publish
-RUN dotnet publish ./SMJRegisterAPI/SMJRegisterAPI.csproj -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish ./SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Final
 FROM base AS final
