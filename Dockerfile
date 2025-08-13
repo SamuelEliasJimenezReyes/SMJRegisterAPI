@@ -6,18 +6,20 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copy all .csproj files (adjust pattern if needed)
-COPY *.sln .
-COPY */*.csproj ./
-RUN for file in $(ls *.csproj); do mkdir -p ${file%.*}/ && mv $file ${file%.*}/; done
-RUN dotnet restore
+# Solution file
+COPY ["SMJRegisterAPI.sln", "./"]
 
+# Project file (adjust path to match your actual location)
+COPY ["SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/SMJRegisterAPI/"]
+RUN dotnet restore "SMJRegisterAPI.sln"
+
+# Copy everything else
 COPY . .
-WORKDIR "/src/SMJRegisterAPI"
-RUN dotnet build -c Release -o /app/build
+WORKDIR "/src/SMJRegisterAPI/SMJRegisterAPI"
+RUN dotnet build "SMJRegisterAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "SMJRegisterAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
