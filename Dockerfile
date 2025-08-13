@@ -6,10 +6,14 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copy all .csproj files (adjust pattern if needed)
 COPY *.sln .
-COPY */*.csproj ./
-RUN for file in $(ls *.csproj); do mkdir -p ${file%.*}/ && mv $file ${file%.*}/; done
+COPY /.csproj ./
+RUN for file in $(find . -name "*.csproj"); do \
+    dir=$(basename "$file" .csproj); \
+    mkdir -p "$dir"; \
+    mv "$file" "$dir/"; \
+done
+
 RUN dotnet restore
 
 COPY . .
