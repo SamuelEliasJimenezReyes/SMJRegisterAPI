@@ -11,20 +11,21 @@ WORKDIR /src
 
 # Copiar solución y proyecto
 COPY SMJRegisterAPI.sln ./
-COPY SMJRegisterAPI/SMJRegisterAPI.csproj ./SMJRegisterAPI/
+COPY SMJRegisterAPI.csproj ./   
+# <-- porque ya estás en la carpeta SMJRegisterAPI
 
 # Restaurar dependencias
-RUN dotnet restore ./SMJRegisterAPI/SMJRegisterAPI.csproj
+RUN dotnet restore ./SMJRegisterAPI.csproj
 
 # Copiar todo el código fuente
 COPY . .
 
 # Build del proyecto
-RUN dotnet build ./SMJRegisterAPI/SMJRegisterAPI.csproj -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build ./SMJRegisterAPI.csproj -c $BUILD_CONFIGURATION -o /app/build
 
 # Publicar el proyecto
 FROM build AS publish
-RUN dotnet publish ./SMJRegisterAPI/SMJRegisterAPI.csproj -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish ./SMJRegisterAPI.csproj -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Fase final
 FROM base AS final
