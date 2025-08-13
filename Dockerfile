@@ -9,7 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copiar la solución y el archivo de proyecto
-COPY SMJRegisterAPI.sln ./
+COPY SMJRegisterAPI.csproj ./
 COPY SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/
 
 # Restaurar dependencias
