@@ -1,33 +1,27 @@
-﻿# Imagen base para ejecutar la aplicación
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
-# Imagen para compilar la aplicación
+﻿# Etapa 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copiar la solución y el proyecto
-COPY SMJRegisterAPI.sln .
-COPY ./SMJRegisterAPI/SMJRegisterAPI.csproj ./SMJRegisterAPI/
+# Copiar todo el código fuente
+COPY . .
 
-# Restaurar dependencias
-RUN dotnet restore SMJRegisterAPI.sln
+# Restaurar dependencias directamente desde el proyecto
+RUN dotnet restore SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj
 
-# Copiar el resto del código
-COPY ./SMJRegisterAPI ./SMJRegisterAPI
+# Publicar en modo Release
+RUN dotnet publish SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj -c Release -o /app/publish
 
-# Compilar
-WORKDIR /src/SMJRegisterAPI
-RUN dotnet build -c Release -o /app/build
-
-# Publicar
-FROM build AS publish
-RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
-
-# Imagen final para producción
-FROM base AS final
+# Etapa 2: Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+# Copiar la aplicación publicada desde la etapa anterior
+COPY --from=build /app/publish .
+
+# Configuración de puerto para Railway
+ENV ASPNETCORE_URLS=http://+:$PORT \
+    DOTNET_RUNNING_IN_CONTAINER=true
+
+EXPOSE $PORT
+
 ENTRYPOINT ["dotnet", "SMJRegisterAPI.dll"]
