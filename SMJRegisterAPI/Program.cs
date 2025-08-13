@@ -91,6 +91,7 @@ builder.Services.AddCarter(configurator: config =>
     config.WithValidatorLifetime(ServiceLifetime.Scoped);
 });
 
+
 #region Auth
 // JWT
 var jwtKey = builder.Configuration["JwtSettings:Key"];
