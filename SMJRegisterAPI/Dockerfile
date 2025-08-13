@@ -4,7 +4,7 @@ WORKDIR /src
 
 # Copiar la solución y el proyecto
 COPY SMJRegisterAPI.sln ./
-COPY SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/
+COPY SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/SMJRegisterAPI/
 
 # Restaurar dependencias
 RUN dotnet restore SMJRegisterAPI.sln
@@ -13,7 +13,7 @@ RUN dotnet restore SMJRegisterAPI.sln
 COPY . .
 
 # Publicar la aplicación
-WORKDIR /src/SMJRegisterAPI
+WORKDIR /src/SMJRegisterAPI/SMJRegisterAPI
 RUN dotnet publish -c Release -o /app/publish
 
 # Etapa 2: Runtime
