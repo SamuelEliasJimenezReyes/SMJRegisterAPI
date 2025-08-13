@@ -2,17 +2,19 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copy solution and project files first
+# 1. Copy solution file from root
 COPY ["SMJRegisterAPI.sln", "."]
+
+# 2. Copy project file (from SMJRegisterAPI/SMJRegisterAPI.csproj)
 COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
 
-# Restore dependencies
+# 3. Restore dependencies
 RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj"
 
-# Copy remaining source code
+# 4. Copy entire project folder
 COPY ["SMJRegisterAPI", "SMJRegisterAPI"]
 
-# Build and publish
+# 5. Build and publish
 WORKDIR "/src/SMJRegisterAPI"
 RUN dotnet publish -c Release -o /app/publish
 
