@@ -1,31 +1,30 @@
-﻿# Fase base para producción
+﻿# Fase base para runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-# Fase de compilación
+# Fase de build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # Copiar solución y proyecto
 COPY ["SMJRegisterAPI.sln", "."]
-COPY ["SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
 
-# Restaurar dependencias
-RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj"
+# Restaurar dependencias (cacheable)
+RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj"
 
 # Copiar todo el código fuente
 COPY . .
 
 # Build del proyecto
-RUN dotnet build "SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "SMJRegisterAPI/SMJRegisterAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Publicar la aplicación
+# Publicar el proyecto
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "SMJRegisterAPI/SMJRegisterAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Fase final
 FROM base AS final
