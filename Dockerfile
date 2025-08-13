@@ -1,17 +1,20 @@
-﻿# Usa etiquetas oficiales de Microsoft
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+﻿FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copia primero el archivo de solución
+# Copia el archivo de solución
 COPY ["SMJRegisterAPI.sln", "."]
-COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+
+# Copia el proyecto (nota: el proyecto está en un subdirectorio)
+COPY ["SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/SMJRegisterAPI/"]
 
 # Restaura dependencias
 RUN dotnet restore "SMJRegisterAPI.sln"
 
-# Copia todo y publica
+# Copia todo
 COPY . .
-RUN dotnet publish "SMJRegisterAPI/SMJRegisterAPI.csproj" -c Release -o /app/publish
+
+# Publica
+RUN dotnet publish "SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj" -c Release -o /app/publish
 
 # Runtime final
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
