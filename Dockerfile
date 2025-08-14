@@ -6,19 +6,25 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-COPY ["SMJRegisterAPI.sln", "."]
-# Usar MAYÚSCULAS
-COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]  
-COPY ["global.json", "."]
+# Copiar solución y archivos esenciales usando rutas relativas
+COPY . .  
+# Copia todo el contexto primero
 
-# Verificar archivo (con mayúsculas)
-RUN ls -la SMJRegisterAPI/SMJRegisterAPI.csproj
+# Mover los archivos esenciales a sus ubicaciones correctas
+RUN mv SMJRegisterAPI.sln ./ && \
+    mv global.json ./ && \
+    mkdir -p SMJRegisterAPI && \
+    mv SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/
+
+# Verificar que los archivos existen
+RUN ls -la && \
+    ls -la SMJRegisterAPI && \
+    test -f SMJRegisterAPI/SMJRegisterAPI.csproj
 
 # Restaurar dependencias
 RUN dotnet restore "SMJRegisterAPI.sln"
 
-COPY . .
-
+# Continuar con el build
 WORKDIR "/src/SMJRegisterAPI"
 RUN dotnet build "SMJRegisterAPI.csproj" -c Release -o /app/build
 

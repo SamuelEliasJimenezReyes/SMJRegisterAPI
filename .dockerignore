@@ -2,8 +2,8 @@
 **/.vs
 **/.vscode
 **/.idea
-**/bin
-**/obj
+bin/
+obj/
 **/node_modules
 *.user
 *.suo
