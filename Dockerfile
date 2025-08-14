@@ -16,17 +16,19 @@ RUN echo "=== Find .sln (maxdepth 2) ===" && find . -maxdepth 2 -type f -name \"
 RUN echo "=== Find .csproj (top 20) ===" && find . -type f -name \"*.csproj\" | head -n 20 || true
 
 # Extracción robusta del .csproj referenciado por la solución (si existe).
-# Usamos sed para capturar la primera cadena entre comillas que contiene ".csproj".
+# Convertimos backslashes a slashes y quitamos CRs para que dotnet funcione en Linux.
 RUN set -eux; \
     if [ -f "./SMJRegisterAPI.sln" ]; then \
       echo "Found solution: SMJRegisterAPI.sln - trying to parse referenced project path"; \
       proj=$(sed -n 's/.*\"\(.*\.csproj\)\".*/\1/p' SMJRegisterAPI.sln | head -n 1 || true); \
+      # Normalizar: backslashes -> slashes, eliminar CR si existe, trim espacios
+      proj=$(echo "$proj" | sed 's|\\|/|g' | tr -d '\r' | awk '{$1=$1;print}'); \
       if [ -n \"$proj\" ]; then \
-        echo \"Parsed project from sln: $proj\"; \
+        echo "Parsed project from sln (normalized): $proj"; \
         dotnet restore \"$proj\"; \
         dotnet publish \"$proj\" -c Release -o /app --no-restore; \
       else \
-        echo \"Could not parse a csproj from the .sln file, falling back to first .csproj found in repo\"; \
+        echo "Could not parse a csproj from the .sln file, falling back to first .csproj found in repo"; \
         csproj=$(find . -type f -name \"*.csproj\" | head -n 1); \
         if [ -z \"$csproj\" ]; then echo \"ERROR: no .csproj found in build context\"; exit 1; fi; \
         echo \"Publishing fallback project: $csproj\"; \
