@@ -10,8 +10,8 @@ WORKDIR /source
 COPY *.sln .
 COPY SMJRegisterAPI/*.csproj ./SMJRegisterAPI/
 
-# Restore with cache - Railway-compatible cache ID format
-RUN --mount=type=cache,target=/root/.nuget/packages,id=nuget-cache-smjregisterapi \
+# Restore with cache - Strict Railway format
+RUN --mount=type=cache,id=nuget-cache-smjregisterapi \
     dotnet restore
 
 # Copy remaining source code
@@ -19,7 +19,7 @@ COPY . .
 WORKDIR /source/SMJRegisterAPI
 
 # Publish with cache - Using the same cache ID
-RUN --mount=type=cache,target=/root/.nuget/packages,id=nuget-cache-smjregisterapi \
+RUN --mount=type=cache,id=nuget-cache-smjregisterapi \
     dotnet publish -a ${TARGETARCH/amd64/x64} -c Release --use-current-runtime --self-contained false -o /app
 
 # Runtime stage
