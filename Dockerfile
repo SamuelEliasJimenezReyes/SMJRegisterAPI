@@ -7,19 +7,21 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copiar solución y archivos esenciales usando rutas relativas
-COPY . .  
 # Copia todo el contexto primero
+COPY . .  
 
-# Mover los archivos esenciales a sus ubicaciones correctas
-RUN mv SMJRegisterAPI.sln ./ && \
-    mv global.json ./ && \
-    mkdir -p SMJRegisterAPI && \
-    mv SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/
+# Verificar que los archivos existen ANTES de mover
+RUN ls -la
+
+# Mover los archivos esenciales a sus ubicaciones correctas (SOLO si es necesario)
+# RUN mkdir -p SMJRegisterAPI && \
+#    mv SMJRegisterAPI/SMJRegisterAPI.csproj SMJRegisterAPI/
 
 # Verificar que los archivos existen
 RUN ls -la && \
     ls -la SMJRegisterAPI && \
-    test -f SMJRegisterAPI/SMJRegisterAPI.csproj
+    test -f SMJRegisterAPI/SMJRegisterAPI.csproj && \
+    echo "El archivo .csproj existe!"
 
 # Restaurar dependencias
 RUN dotnet restore "SMJRegisterAPI.sln"
