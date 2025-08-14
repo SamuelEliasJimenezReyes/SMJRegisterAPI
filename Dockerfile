@@ -1,28 +1,41 @@
-﻿# Producción: Build multi-stage (suponiendo Dockerfile en la misma carpeta que SMJRegisterAPI.sln)
+﻿# Etapa base para runtime
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+# Etapa de build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copiar todo el contexto (SMJRegisterAPI.sln y carpetas de proyecto deben estar en el contexto)
+# Copiar todo el código al contenedor
 COPY . .
 
-# Restaurar solución (correrá sobre los .csproj que estén en el contexto)
-RUN dotnet restore "SMJRegisterAPI.csproj"
+# Buscar y restaurar usando .sln si existe, de lo contrario usar .csproj
+RUN if [ -f *.sln ]; then \
+        echo "Restaurando usando solución..."; \
+        dotnet restore *.sln; \
+    else \
+        echo "No se encontró .sln, buscando .csproj..."; \
+        proj=$(find . -name "*.csproj" | head -n 1); \
+        echo "Restaurando proyecto $proj"; \
+        dotnet restore "$proj"; \
+    fi
 
-# Build del proyecto principal (ajusta la ruta si quieres compilar un proyecto concreto)
-WORKDIR /src/SMJRegisterAPI
-RUN dotnet build "SMJRegisterAPI.csproj" -c Release -o /app/build
+# Compilar usando el .csproj encontrado
+RUN proj=$(find . -name "*.csproj" | head -n 1) && \
+    echo "Compilando $proj" && \
+    dotnet build "$proj" -c Release -o /app/build
 
+# Etapa de publicación
 FROM build AS publish
-WORKDIR /src/SMJRegisterAPI
-RUN dotnet publish "SMJRegisterAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN proj=$(find . -name "*.csproj" | head -n 1) && \
+    echo "Publicando $proj" && \
+    dotnet publish "$proj" -c Release -o /app/publish /p:UseAppHost=false
 
+# Etapa final (runtime)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_URLS=http://+:$PORT DOTNET_RUNNING_IN_CONTAINER=true
-ENTRYPOINT ["dotnet", "SMJRegisterAPI.dll"]
+ENV ASPNETCORE_URLS=http://+:8080 DOTNET_RUNNING_IN_CONTAINER=true
+ENTRYPOINT ["dotnet", "$(find . -name '*.dll' | head -n 1)"]
