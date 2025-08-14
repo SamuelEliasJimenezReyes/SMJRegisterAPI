@@ -6,30 +6,40 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 WORKDIR /src
 
-# Copiamos todo (si tu .dockerignore está correcto, no traerá bin/obj)
+# Copiamos todo (respeta .dockerignore)
 COPY . .
 
 # Mostrar estructura para diagnóstico (verás esto en los logs de Railway)
-RUN echo "=== root files ===" && ls -la /src && echo "=== find . -maxdepth 2 -type f -name \"*.sln\" ===" && find . -maxdepth 2 -type f -name "*.sln" || true \
- && echo "=== find . -type f -name \"*.csproj\" (top 10) ===" && find . -type f -name "*.csproj" | head -n 10 || true
+RUN echo "=== root files (/src) ===" && ls -la /src || true
+RUN echo "=== SMJRegisterAPI folder (/src/SMJRegisterAPI) ===" && ls -la /src/SMJRegisterAPI || true
+RUN echo "=== Find .sln (maxdepth 2) ===" && find . -maxdepth 2 -type f -name "*.sln" || true
+RUN echo "=== Find .csproj (top 20) ===" && find . -type f -name "*.csproj" | head -n 20 || true
 
-# Detectar y publicar correctamente:
-#  - Si existe un .sln en la raíz (SMJRegisterAPI.sln) lo usamos.
-#  - Si no, tomamos el primer .csproj encontrado.
-# Esto evita depender de rutas fijas que en Railway pueden variar.
+# Intentar usar la solución si existe; si no, usar el primer .csproj encontrado.
+# También usamos `dotnet sln ... list` para mostrar qué proyectos apunta la solución.
 RUN set -eux; \
     if [ -f "./SMJRegisterAPI.sln" ]; then \
-      echo "Found solution: SMJRegisterAPI.sln - restoring & publishing solution"; \
-      dotnet restore SMJRegisterAPI.sln; \
-      dotnet publish SMJRegisterAPI.sln -c Release -o /app --no-restore; \
-    else \
-      csproj=$(find . -type f -name "*.csproj" | head -n 1); \
-      if [ -z "$csproj" ]; then \
-        echo "ERROR: no .csproj found in build context"; exit 1; \
+      echo "Found solution: SMJRegisterAPI.sln - listing projects:"; \
+      dotnet sln SMJRegisterAPI.sln list || true; \
+      # intentar publicar el primer proyecto listado por dotnet sln list
+      proj=$(dotnet sln SMJRegisterAPI.sln list | sed -n '2p' || true); \
+      if [ -n "$proj" ]; then \
+        echo "Publishing project from sln: $proj"; \
+        dotnet restore "$proj"; \
+        dotnet publish "$proj" -c Release -o /app --no-restore; \
+      else \
+        echo "No projects listed in solution (or unable to parse). Will try to publish first .csproj found."; \
+        csproj=$(find . -type f -name \"*.csproj\" | head -n 1); \
+        if [ -z \"$csproj\" ]; then echo \"ERROR: no .csproj found in build context\"; exit 1; fi; \
+        dotnet restore \"$csproj\"; \
+        dotnet publish \"$csproj\" -c Release -o /app --no-restore; \
       fi; \
-      echo "Found csproj: $csproj - restoring & publishing project"; \
-      dotnet restore "$csproj"; \
-      dotnet publish "$csproj" -c Release -o /app --no-restore; \
+    else \
+      csproj=$(find . -type f -name \"*.csproj\" | head -n 1); \
+      if [ -z \"$csproj\" ]; then echo \"ERROR: no .csproj found in build context\"; exit 1; fi; \
+      echo \"Publishing standalone project: $csproj\"; \
+      dotnet restore \"$csproj\"; \
+      dotnet publish \"$csproj\" -c Release -o /app --no-restore; \
     fi
 
 ########################
@@ -38,12 +48,9 @@ RUN set -eux; \
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine AS final
 WORKDIR /app
 
-# Copiamos los binarios publicados
 COPY --from=build /app ./
 
-# Exponer puerto y permitir que ASP.NET escuche en cualquier interfaz
 ENV ASPNETCORE_URLS=http://+:${PORT:-8080}
 EXPOSE 8080
 
-# Entrypoint
 ENTRYPOINT ["dotnet", "SMJRegisterAPI.dll"]
