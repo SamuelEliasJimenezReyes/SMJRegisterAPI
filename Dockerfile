@@ -11,7 +11,7 @@ WORKDIR /src
 COPY . .
 
 # Restaurar solución (correrá sobre los .csproj que estén en el contexto)
-RUN dotnet restore "SMJRegisterAPI.sln"
+RUN dotnet restore "SMJRegisterAPI.csproj"
 
 # Build del proyecto principal (ajusta la ruta si quieres compilar un proyecto concreto)
 WORKDIR /src/SMJRegisterAPI
