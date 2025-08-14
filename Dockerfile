@@ -4,30 +4,28 @@ EXPOSE 8080
 EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Copiar SOLO los archivos esenciales primero
+# Usar minúsculas consistentemente
 COPY ["SMJRegisterAPI.sln", "."]
-COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+COPY ["smjregisterapi/smjregisterapi.csproj", "SMJRegisterAPI/"]
 COPY ["global.json", "."]
 
-# Verificar que los archivos .csproj existen
-RUN ls -la SMJRegisterAPI/SMJRegisterAPI.csproj
+# Verificar archivo
+RUN ls -la SMJRegisterAPI/smjregisterapi.csproj
 
 # Restaurar dependencias
 RUN dotnet restore "SMJRegisterAPI.sln"
 
-# Copiar el resto del código
+# Copiar todo
 COPY . .
 
 # Construir y publicar
 WORKDIR "/src/SMJRegisterAPI"
-RUN dotnet build "SMJRegisterAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "smjregisterapi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "SMJRegisterAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "smjregisterapi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
