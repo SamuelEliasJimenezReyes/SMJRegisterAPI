@@ -7,18 +7,14 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Copy solution and project files using absolute context paths
-COPY ["SMJRegisterAPI.sln", "./"]
-COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+# Copy all files and directories
+COPY . .
 
-# Diagnostic command to verify context
+# Verify file structure
 RUN ls -la && ls -la SMJRegisterAPI/
 
 # Restore dependencies
 RUN dotnet restore "SMJRegisterAPI.sln"
-
-# Copy remaining source code
-COPY . .
 
 # Build and publish
 WORKDIR "/src/SMJRegisterAPI"
