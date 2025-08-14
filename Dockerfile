@@ -9,7 +9,7 @@ WORKDIR /src
 # Usar minúsculas consistentemente en TODAS las rutas
 COPY ["SMJRegisterAPI.sln", "."]
 # Cambiado a minúsculas
-COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]  
+COPY ["SMJRegisterAPI/smjregisterapi.csproj", "SMJRegisterAPI/"]  
 COPY ["global.json", "."]
 
 # Verificar archivo (usando minúsculas)
