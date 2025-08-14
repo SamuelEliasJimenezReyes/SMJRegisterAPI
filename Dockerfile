@@ -27,7 +27,7 @@ ARG TARGETARCH
 # If TARGETARCH is "amd64", replace it with "x64" - "x64" is .NET's canonical name for this and "amd64" doesn't
 #   work in .NET 6.0.
 # Variable para desactivar cache mounts en entornos que no lo soportan
-ARG USE_CACHE_MOUNT=true
+ARG USE_CACHE_MOUNT=false
 
 RUN if [ "$USE_CACHE_MOUNT" = "true" ]; then \
         dotnet publish -a ${TARGETARCH/amd64/x64} --use-current-runtime --self-contained false -o /app; \
