@@ -29,7 +29,7 @@ ARG TARGETARCH
 # Variable para desactivar cache mounts en entornos que no lo soportan
 ARG USE_CACHE_MOUNT=false
 
-RUN if [ "$USE_CACHE_MOUNT" = "true" ]; then \
+RUN if [ $USE_CACHE_MOUNT = "true" ]; then \
         dotnet publish -a ${TARGETARCH/amd64/x64} --use-current-runtime --self-contained false -o /app; \
     else \
         dotnet publish -a ${TARGETARCH/amd64/x64} --use-current-runtime --self-contained false -o /app; \
