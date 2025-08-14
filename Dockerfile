@@ -15,7 +15,7 @@ COPY . .
 ARG TARGETARCH
 
 # Publicar el proyecto
-RUN dotnet publish $(find . -name "*.csproj" | head -n 1) \
+RUN dotnet publish $(find . -name "SMJRegisterAPI.csproj") \
     -a ${TARGETARCH/amd64/x64} \
     --use-current-runtime \
     --self-contained false \
