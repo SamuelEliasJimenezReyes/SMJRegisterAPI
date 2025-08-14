@@ -7,16 +7,21 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Copy all files and directories
-COPY . .
+# Copiar SOLO los archivos esenciales primero
+COPY ["SMJRegisterAPI.sln", "."]
+COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+COPY ["global.json", "."]
 
-# Verify file structure
-RUN ls -la && ls -la SMJRegisterAPI/
+# Verificar que los archivos .csproj existen
+RUN ls -la SMJRegisterAPI/SMJRegisterAPI.csproj
 
-# Restore dependencies
+# Restaurar dependencias
 RUN dotnet restore "SMJRegisterAPI.sln"
 
-# Build and publish
+# Copiar el resto del código
+COPY . .
+
+# Construir y publicar
 WORKDIR "/src/SMJRegisterAPI"
 RUN dotnet build "SMJRegisterAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
