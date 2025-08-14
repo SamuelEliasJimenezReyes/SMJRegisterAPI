@@ -9,35 +9,34 @@ WORKDIR /src
 # Copiamos todo (respeta .dockerignore)
 COPY . .
 
-# Mostrar estructura para diagnóstico (verás esto en los logs de Railway)
+# Diagnóstico: verás esto en los logs de Railway
 RUN echo "=== root files (/src) ===" && ls -la /src || true
 RUN echo "=== SMJRegisterAPI folder (/src/SMJRegisterAPI) ===" && ls -la /src/SMJRegisterAPI || true
-RUN echo "=== Find .sln (maxdepth 2) ===" && find . -maxdepth 2 -type f -name "*.sln" || true
-RUN echo "=== Find .csproj (top 20) ===" && find . -type f -name "*.csproj" | head -n 20 || true
+RUN echo "=== Find .sln (maxdepth 2) ===" && find . -maxdepth 2 -type f -name \"*.sln\" || true
+RUN echo "=== Find .csproj (top 20) ===" && find . -type f -name \"*.csproj\" | head -n 20 || true
 
-# Intentar usar la solución si existe; si no, usar el primer .csproj encontrado.
-# También usamos `dotnet sln ... list` para mostrar qué proyectos apunta la solución.
+# Extracción robusta del .csproj referenciado por la solución (si existe).
+# Usamos sed para capturar la primera cadena entre comillas que contiene ".csproj".
 RUN set -eux; \
     if [ -f "./SMJRegisterAPI.sln" ]; then \
-      echo "Found solution: SMJRegisterAPI.sln - listing projects:"; \
-      dotnet sln SMJRegisterAPI.sln list || true; \
-      # intentar publicar el primer proyecto listado por dotnet sln list
-      proj=$(dotnet sln SMJRegisterAPI.sln list | sed -n '2p' || true); \
-      if [ -n "$proj" ]; then \
-        echo "Publishing project from sln: $proj"; \
-        dotnet restore "$proj"; \
-        dotnet publish "$proj" -c Release -o /app --no-restore; \
+      echo "Found solution: SMJRegisterAPI.sln - trying to parse referenced project path"; \
+      proj=$(sed -n 's/.*\"\(.*\.csproj\)\".*/\1/p' SMJRegisterAPI.sln | head -n 1 || true); \
+      if [ -n \"$proj\" ]; then \
+        echo \"Parsed project from sln: $proj\"; \
+        dotnet restore \"$proj\"; \
+        dotnet publish \"$proj\" -c Release -o /app --no-restore; \
       else \
-        echo "No projects listed in solution (or unable to parse). Will try to publish first .csproj found."; \
+        echo \"Could not parse a csproj from the .sln file, falling back to first .csproj found in repo\"; \
         csproj=$(find . -type f -name \"*.csproj\" | head -n 1); \
         if [ -z \"$csproj\" ]; then echo \"ERROR: no .csproj found in build context\"; exit 1; fi; \
+        echo \"Publishing fallback project: $csproj\"; \
         dotnet restore \"$csproj\"; \
         dotnet publish \"$csproj\" -c Release -o /app --no-restore; \
       fi; \
     else \
+      echo \"No solution file found, publishing first csproj found\"; \
       csproj=$(find . -type f -name \"*.csproj\" | head -n 1); \
       if [ -z \"$csproj\" ]; then echo \"ERROR: no .csproj found in build context\"; exit 1; fi; \
-      echo \"Publishing standalone project: $csproj\"; \
       dotnet restore \"$csproj\"; \
       dotnet publish \"$csproj\" -c Release -o /app --no-restore; \
     fi
