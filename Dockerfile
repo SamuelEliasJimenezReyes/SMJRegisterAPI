@@ -16,7 +16,7 @@ ARG TARGETARCH
 
 # Publicar el proyecto directamente usando el archivo .csproj
 # ⚠️ Cambia el nombre/ruta del csproj si es distinto
-RUN dotnet publish ./SMJRegisterAPI.csproj \
+RUN dotnet publish SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj \
     -a ${TARGETARCH/amd64/x64} \
     --use-current-runtime \
     --self-contained false \
