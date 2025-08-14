@@ -6,18 +6,12 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copiar solución y archivos de proyecto
 COPY ["SMJRegisterAPI.sln", "."]
-# Ruta exacta del repositorio
-COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]  
+COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
 
-# Restaurar dependencias
 RUN dotnet restore "SMJRegisterAPI.sln"
 
-# Copiar el resto del código
 COPY . .
-
-# Construir y publicar
 WORKDIR "/src/SMJRegisterAPI"
 RUN dotnet build "SMJRegisterAPI.csproj" -c Release -o /app/build
 
