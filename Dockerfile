@@ -6,26 +6,27 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Usar minúsculas consistentemente
+# Usar minúsculas consistentemente en TODAS las rutas
 COPY ["SMJRegisterAPI.sln", "."]
-COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+# Cambiado a minúsculas
+COPY ["SMJRegisterAPI/smjregisterapi.csproj", "SMJRegisterAPI/"]  
 COPY ["global.json", "."]
 
-# Verificar archivo
+# Verificar archivo (usando minúsculas)
 RUN ls -la SMJRegisterAPI/smjregisterapi.csproj
 
-# Restaurar dependencias
+# Restaurar dependencias usando el proyecto
 RUN dotnet restore "SMJRegisterAPI.sln"
 
 # Copiar todo
 COPY . .
 
-# Construir y publicar
+# Construir y publicar usando minúsculas
 WORKDIR "/src/SMJRegisterAPI"
-RUN dotnet build "SMJRegisterAPI.csproj" -c Release -o /app/build
+RUN dotnet build "smjregisterapi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "SMJRegisterAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "smjregisterapi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
