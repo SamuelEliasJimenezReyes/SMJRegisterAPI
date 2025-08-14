@@ -8,7 +8,7 @@ WORKDIR /src
 
 # Usar minúsculas consistentemente
 COPY ["SMJRegisterAPI.sln", "."]
-COPY ["smjregisterapi/smjregisterapi.csproj", "SMJRegisterAPI/"]
+COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
 COPY ["global.json", "."]
 
 # Verificar archivo
@@ -22,10 +22,10 @@ COPY . .
 
 # Construir y publicar
 WORKDIR "/src/SMJRegisterAPI"
-RUN dotnet build "smjregisterapi.csproj" -c Release -o /app/build
+RUN dotnet build "SMJRegisterAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "smjregisterapi.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "SMJRegisterAPI.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
