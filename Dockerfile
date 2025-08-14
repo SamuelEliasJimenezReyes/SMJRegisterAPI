@@ -9,13 +9,18 @@ WORKDIR /source
 # Copy csproj and restore as distinct layers
 COPY *.sln .
 COPY SMJRegisterAPI/*.csproj ./SMJRegisterAPI/
-RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
+
+# FIX: Added project-specific prefix to cache ID
+RUN --mount=type=cache,id=smjregisterapi-nuget,target=/root/.nuget/packages \
     dotnet restore
 
 # Copy everything else and build
 COPY . .
 WORKDIR /source/SMJRegisterAPI
-RUN dotnet publish -a ${TARGETARCH/amd64/x64} --use-current-runtime --self-contained false -o /app
+
+# FIX: Same cache mount for publish step
+RUN --mount=type=cache,id=smjregisterapi-nuget,target=/root/.nuget/packages \
+    dotnet publish -a ${TARGETARCH/amd64/x64} --use-current-runtime --self-contained false -o /app
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine AS final
