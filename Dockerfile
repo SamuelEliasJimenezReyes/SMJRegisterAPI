@@ -1,43 +1,20 @@
-# syntax=docker/dockerfile:1
 
-# =========================
-# Stage 1 - Build
-# =========================
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
+EXPOSE 8080
+COPY . /source
 
-# Carpeta de trabajo para el código
-WORKDIR /source
+WORKDIR /source/SMJRegisterAPI
 
-# Copiamos todo el código al contenedor
-COPY . .
-
-# Detectar arquitectura
 ARG TARGETARCH
 
-# Publicar el proyecto directamente usando el archivo .csproj
-# ⚠️ Cambia el nombre/ruta del csproj si es distinto
-RUN dotnet publish SMJRegisterAPI/SMJRegisterAPI/SMJRegisterAPI.csproj \
-    -a ${TARGETARCH/amd64/x64} \
-    --use-current-runtime \
-    --self-contained false \
-    -o /app
 
-# =========================
-# Stage 2 - Runtime
-# =========================
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine AS final
+RUN dotnet publish -a ${TARGETARCH/amd64/x64} --use-current-runtime --self-contained false -o /app
 
-# Carpeta de trabajo
+
 WORKDIR /app
 
-# Copiar los archivos publicados desde la etapa de build
 COPY --from=build /app .
 
-# Usar usuario no root (opcional, para más seguridad)
 USER $APP_UID
 
-# Exponer puerto
-EXPOSE 8080
-
-# Entrypoint
 ENTRYPOINT ["dotnet", "SMJRegisterAPI.dll"]
