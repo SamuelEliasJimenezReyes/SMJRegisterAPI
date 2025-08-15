@@ -1,3 +1,7 @@
 [build]
 provider = "dotnet"
-project = "SMJRegisterAPI/SMJRegisterAPI.csproj"  
+project = "SMJRegisterAPI/SMJRegisterAPI.csproj"
+dotnet-version = "8.0"
+
+[build.args]
+ASPNETCORE_ENVIRONMENT = "Production"
