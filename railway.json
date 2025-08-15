@@ -6,7 +6,7 @@
     "watchPaths": [
       "SMJRegisterAPI/**",
       "*.sln",
-      "Dockerfile"
+      "./Dockerfile"
     ]
   }
 }
