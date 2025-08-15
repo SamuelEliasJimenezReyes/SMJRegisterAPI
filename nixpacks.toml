@@ -1,0 +1,3 @@
+[build]
+provider = "dotnet"
+project = "SMJRegisterAPI/SMJRegisterAPI.csproj"  
