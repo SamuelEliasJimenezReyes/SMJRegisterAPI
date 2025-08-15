@@ -1,9 +1,13 @@
 [build]
 provider = "dotnet"
-project = "SMJRegisterAPI/SMJRegisterAPI.csproj"
+project = "SMJRegisterAPI/SMJRegisterAPI.csproj"  # Ruta exacta desde repo raíz
 dotnet-version = "8.0.100"
 
 [phases.setup]
-nix_pkgs = [
-    "dotnet-sdk_8"
-]
+nix_pkgs = ["dotnet-sdk_8"]
+
+[build.args]
+ASPNETCORE_ENVIRONMENT = "Production"
+
+[start]
+cmd = "dotnet SMJRegisterAPI/SMJRegisterAPI.dll --urls http://0.0.0.0:$PORT"
