@@ -6,15 +6,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 WORKDIR /src
 
-# 1. Copiar SOLO el archivo .csproj y restaurar dependencias
-COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
-RUN dotnet restore "SMJRegisterAPI/SMJRegisterAPI.csproj"
+# Copiar el archivo del proyecto y restaurar
+COPY *.csproj ./
+RUN dotnet restore
 
-# 2. Copiar todo el código fuente
+# Copiar todo el código y publicar
 COPY . .
-
-# 3. Publicar el proyecto
-RUN dotnet publish "SMJRegisterAPI/SMJRegisterAPI.csproj" -c Release -o /app
+RUN dotnet publish -c Release -o /app
 
 ########################
 # Stage 2: Runtime
