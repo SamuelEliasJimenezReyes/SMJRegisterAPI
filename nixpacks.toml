@@ -5,10 +5,9 @@ dotnet-version = "8.0.100"
 
 [phases]
 setup = [
-  "dotnet restore SMJRegisterAPI/SMJRegisterAPI.csproj",
-  "dotnet publish SMJRegisterAPI/SMJRegisterAPI.csproj -c Release -o /app"
+  "dotnet restore $NIXPACKS_PROJECT_PATH",
+  "dotnet publish $NIXPACKS_PROJECT_PATH -c Release -o /app"
 ]
-
 
 [start]
 cmd = "dotnet /app/SMJRegisterAPI.dll --urls http://0.0.0.0:$PORT"
