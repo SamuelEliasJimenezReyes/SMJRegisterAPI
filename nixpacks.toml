@@ -1,7 +1,9 @@
 [build]
 provider = "dotnet"
 project = "SMJRegisterAPI/SMJRegisterAPI.csproj"
-dotnet-version = "8.0"
+dotnet-version = "8.0.100"
 
-[build.args]
-ASPNETCORE_ENVIRONMENT = "Production"
+[phases.setup]
+nix_pkgs = [
+    "dotnet-sdk_8"
+]
