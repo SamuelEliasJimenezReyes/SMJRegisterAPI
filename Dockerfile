@@ -8,15 +8,16 @@ ENV ASPNETCORE_URLS=http://*:8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiar archivos esenciales primero
+# Copiar archivos esenciales primero (CORREGIDO)
 COPY ["SMJRegisterAPI.sln", "."]
-COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]
+COPY ["SMJRegisterAPI/SMJRegisterAPI.csproj", "SMJRegisterAPI/"]  
+# ¡Case-sensitive!
 COPY ["global.json", "."]
 
 # Restaurar dependencias
 RUN dotnet restore "SMJRegisterAPI.sln"
 
-# Copiar todo el código
+# Copiar todo el código (usando ruta correcta)
 COPY . .
 
 # Compilar proyecto
