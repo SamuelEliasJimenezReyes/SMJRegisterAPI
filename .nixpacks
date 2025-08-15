@@ -1,0 +1,3 @@
+#!/bin/sh
+dotnet restore SMJRegisterAPI/SMJRegisterAPI.csproj
+dotnet publish SMJRegisterAPI/SMJRegisterAPI.csproj -c Release -o /app
