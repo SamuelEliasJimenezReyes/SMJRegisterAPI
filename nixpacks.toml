@@ -9,5 +9,6 @@ setup = [
   "dotnet publish SMJRegisterAPI/SMJRegisterAPI.csproj -c Release -o /app"
 ]
 
+
 [start]
 cmd = "dotnet /app/SMJRegisterAPI.dll --urls http://0.0.0.0:$PORT"
