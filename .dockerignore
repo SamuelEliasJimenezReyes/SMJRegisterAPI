@@ -6,6 +6,5 @@
 **/node_modules
 Dockerfile
 .dockerignore
-.gitignore
 *.md
 *.log
