@@ -5,5 +5,6 @@ RUN dotnet publish "/src/SMJRegisterAPI/SMJRegisterAPI.csproj" -c Release -o /ap
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 COPY --from=build /app /app
 WORKDIR /app
-ENV ASPNETCORE_URLS=http://*:8080
+ENV ASPNETCORE_URLS=http://*:$PORT
+ENV PORT=8080
 ENTRYPOINT ["dotnet", "SMJRegisterAPI.dll"]
