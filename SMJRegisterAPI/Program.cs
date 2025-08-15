@@ -25,7 +25,9 @@ using SMJRegisterAPI.Services.Tenant;
 using SMJRegisterAPI.Services.User;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var port = Environment.GetEnvironmentVariable("PORT")?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
+builder.Services.AddHealthChecks();
 #region DbContext Configurations
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseNpgsql(
@@ -73,6 +75,8 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+
+
 #region Swagger y Carter
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -110,7 +114,7 @@ builder.Services.AddAuthorization();
 #endregion
 
 var app = builder.Build();
-
+app.UseHealthChecks("/health");
 
 #region Middlewares
 if (app.Environment.IsDevelopment())
