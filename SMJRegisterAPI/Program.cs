@@ -23,36 +23,31 @@ using SMJRegisterAPI.Services.CodeGenerator;
 using SMJRegisterAPI.Services.FileStore;
 using SMJRegisterAPI.Services.Tenant;
 using SMJRegisterAPI.Services.User;
-using SMJRegisterAPI.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
 #region DbContext Configurations
-
-builder.Services.AddDbContext<ApplicationDbContext>(opt=>
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-
-
 #endregion
 
-#region Repositories and services 
-    builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-    builder.Services.AddScoped(typeof(ICamperRepository),typeof(CamperRepository));
-    builder.Services.AddScoped(typeof(IChurchRepository),typeof(ChurchRepository));
-    builder.Services.AddScoped(typeof(IRoomRepository),typeof(RoomRepository));
-    builder.Services.AddScoped(typeof(IGenerateCodeService),typeof(GenerateCodeService));
-    builder.Services.AddScoped(typeof(IGrantedCodeRepository),typeof(GrantedCodeRepository));
-    builder.Services.AddScoped(typeof(IBankInformationRepository),typeof(BankInformationRepository));
-    builder.Services.AddScoped(typeof(IPaymentRepository),typeof(PaymentRepository));
-    builder.Services.AddScoped(typeof(IFileStorage),typeof(FileStorage));
-    builder.Services.AddScoped(typeof(ITenantServices),typeof(TenantServices));
-    builder.Services.AddScoped(typeof(IJwtTokenService),typeof(JwtTokenServices));
-    builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+#region Repositories and Services
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ICamperRepository, CamperRepository>();
+builder.Services.AddScoped<IChurchRepository, ChurchRepository>();
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IGenerateCodeService, GenerateCodeService>();
+builder.Services.AddScoped<IGrantedCodeRepository, GrantedCodeRepository>();
+builder.Services.AddScoped<IBankInformationRepository, BankInformationRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IFileStorage, FileStorage>();
+builder.Services.AddScoped<ITenantServices, TenantServices>();
+builder.Services.AddScoped<IJwtTokenService, JwtTokenServices>();
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-    builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddHttpContextAccessor();
 #endregion
 
 #region CORS
@@ -61,82 +56,74 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 });
 #endregion
 
 #region Automapper y MediatR
-
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddMediatR(cfg => 
-        cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 #endregion
 
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+#region Swagger y Carter
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+builder.Services.AddCarter();
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi("v1", options =>
-{
-    options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
-});
-builder.Services.AddCarter(configurator: config =>
-{
-    config.WithValidatorLifetime(ServiceLifetime.Scoped);
-});
+#endregion
 
 
 #region Auth
-// JWT
 var jwtKey = builder.Configuration["JwtSettings:Key"];
 var jwtIssuer = builder.Configuration["JwtSettings:Issuer"];
-var jwtDuration = builder.Configuration["JwtSettings:DurationInMinutes"];
 
 builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtIssuer,
-            ValidAudience = jwtIssuer,
-            RoleClaimType = "conference",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
-        };
-    });
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtIssuer,
+        ValidAudience = jwtIssuer,
+        RoleClaimType = "conference",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+    };
+});
 
 builder.Services.AddAuthorization();
 #endregion
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 
-    app.MapOpenApi();
-    app.MapScalarApiReference(options=> 
-        options
-            .WithTitle("SmjRegisterAPI")
-            .WithTheme(ScalarTheme.DeepSpace)
-    );
+#region Middlewares
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapCarter();
-#region Error middleware
 
 app.UseExceptionHandler(cfg =>
 {
@@ -156,12 +143,7 @@ app.UseExceptionHandler(cfg =>
                     g => g.Select(e => e.ErrorMessage).ToArray()
                 );
 
-            var response = new
-            {
-                errors
-            };
-
-            await context.Response.WriteAsJsonAsync(response);
+            await context.Response.WriteAsJsonAsync(new { errors });
         }
         else
         {
@@ -171,6 +153,5 @@ app.UseExceptionHandler(cfg =>
     });
 });
 #endregion
-
 
 app.Run();
